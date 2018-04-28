@@ -1,0 +1,1 @@
+Add example redis programs to this directory! Feel free to explain them here. These should be using the hiredis client library.
