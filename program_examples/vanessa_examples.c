@@ -50,27 +50,27 @@ int main(int argc, char **argv){
 	
 	//Creates a new set and adds member
         reply = redisCommand(p,"SADD set1 %s", "apple");
-        printf("SADD: %d\n",reply->integer);
+        printf("SADD: %lld\n",reply->integer);
         freeReplyObject(reply);
 
         //Adds a member to a set
         reply = redisCommand(p,"SADD set1 %s", "banana");
-        printf("SADD: %d\n",reply->integer);
+        printf("SADD: %lld\n",reply->integer);
         freeReplyObject(reply);
 
         //Adding an existing member returns 0 and doesn't change the set
         reply = redisCommand(p,"SADD set1 %s", "apple");
-        printf("SADD: %d\n",reply->integer);
+        printf("SADD: %lld\n",reply->integer);
         freeReplyObject(reply);
 
         //Removes a member from a set
         reply = redisCommand(p,"SREM set1 %s", "apple");
-        printf("SREM: %s\n",reply->str);
+        printf("SREM: %lld\n",reply->integer);
         freeReplyObject(reply);
 
         //Checks if a member is in a set
         reply = redisCommand(p,"SISMEMBER set1 %s", "banana");
-        printf("SISMEMBER: %d\n",reply->integer);
+        printf("SISMEMBER: %lld\n",reply->integer);
         freeReplyObject(reply);
 
         //Frees and disconnects the session
