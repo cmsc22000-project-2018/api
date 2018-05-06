@@ -5,6 +5,7 @@ install: true
 branches:
   only:
     - master
+    - alan/example_api
 
 jobs:
   include:
