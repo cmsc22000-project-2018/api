@@ -6,7 +6,7 @@
 #ifndef INCLUDE_API_H_
 #define INCLUDE_API_H_
 
-#include "hiredis/hiredis.h"
+#include "./hiredis/hiredis.h"
 
 typedef struct {
   redisContext *context;
