@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+i
 #include "api.h"
 
 /*
@@ -12,8 +12,22 @@
  * returns
  *  redisContext if successful, NULL otherwise
  */
-redisContext *connect(const char ip*, int port)
+redisContext *connect(const char *ip, int port)
 {
+  redisContext *c = redisConnect(ip, port);
+  if (c == NULL || c->err)
+  {
+    if (c)
+    {
+      fprintf(stderr, "err: %s\n", c->errstr);
+    }
+    else
+    {
+      fprintf(stderr, "err connect: cannot allocate redis context\n");
+    }
+    return NULL;
+  }
+  return c;
 }
 
 /*
@@ -26,15 +40,35 @@ redisContext *connect(const char ip*, int port)
  */
 int connected(session_t *s)
 {
+  if (s)
+    return s->context == NULL;
+
+  return 0;
 }
 
-/*
- * addUser - adds a user to the leaderboard
- *
- * parameters
- *  session_t *s - pointer to session
- *  char *name - name of user
- * returns
- *  1 if success, 0 otherwise
- */
+/* see api.h */
+int addUser(session_t *s, char *name)
+{
+  if (!connected(s))
+    s->context = connect("127.0.0.1", 6379); //default
 
+  redisReply *reply = redisCommand(s->context, "ZADD leaderboard %s", name);
+
+  if (reply == NULL)
+    return 0;
+
+  return 1;
+}
+
+int removeUser(session_t *s, char *name)
+{
+  if (!connected(s))
+    s->context = connect("127.0.0.1", 6379); //default
+
+  redisReply *reply = redisCommand(s->context, "ZREM leaderboard %s", name);
+
+  if (reply == NULL)
+    return 0;
+
+  return 1;
+}
