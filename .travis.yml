@@ -1,9 +1,15 @@
 language: c
 
-test:build:
-  stage: build
-  script:
-    - echo Nothing to build!
+install: true
+
+branches:
   only:
     - master
+
+jobs:
+  include:
+    - stage: build
+      script: echo Built!
+    - stage: test
+      script: echo Tested!
 
