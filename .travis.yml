@@ -1,0 +1,9 @@
+language: c
+
+test:build:
+  stage: build
+  script:
+    - echo Nothing to build!
+  only:
+    - master
+
