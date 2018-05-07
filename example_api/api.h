@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 /*
  * This API uses Hiredis to faciliate communcation between an
  * application and a Redis server.
  */
 
-=======
->>>>>>> origin/develop
 #ifndef INCLUDE_API_H_
 #define INCLUDE_API_H_
 
@@ -15,7 +12,6 @@ typedef struct {
   redisContext *context;
 } session_t;
 
-<<<<<<< HEAD
 /*
  * addUser - adds a user to the leaderboard
  *
@@ -36,9 +32,8 @@ int addUser(session_t *s, char *name);
  */
 int removeUser(session_t *s, char *name);
 
-#endif
-=======
 int incr_member(char* setname,char* memname double incrby);
 
-int decr_member(char* setname,char* memname, double decrby); 
->>>>>>> origin/develop
+int decr_member(char* setname,char* memname, double decrby);
+
+#endif
