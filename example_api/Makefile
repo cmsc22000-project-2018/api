@@ -14,6 +14,6 @@ DYN_LDFLAGS = -L./hiredis/ -Wl,-rpath,./hiredis/
 
 BINS = app
 
-SRCS = app.c api.c
+SRCS = incr_decr_scores.c 
 
 OBJS = $(SRCS:.c=.o)
