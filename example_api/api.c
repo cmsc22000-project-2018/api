@@ -123,7 +123,6 @@ int decr_member(char* setname, char* memname, double decrby)
         freeReplyObject(reply);
 }
 
-<<<<<<< HEAD
 /* Author: AK Alilonu
 Date: May 7th 2018
 */
@@ -134,11 +133,6 @@ char** get_defused(session_t* s, char* setname)
 	if (!connected(s)) {
     s->context = connect("127.0.0.1", 6379);
   }
-
-  if(s == NULL || s->err) {
-    printf("Error not connecting to redis server: %s\n", s->errstr);
-		return 1;
-	}
 
   char* cursor = "0";
   int d;
@@ -151,7 +145,7 @@ char** get_defused(session_t* s, char* setname)
 
     for (int i = 0; values[1][i] != NULL; i++) {
       char* user = values[1][i];
-      
+
       if (findScore(user) == 60) {
         d++;
       }
@@ -161,7 +155,7 @@ char** get_defused(session_t* s, char* setname)
   }
 
   char** defused = (char*) malloc(sizeof(char*) * d);
-  
+
   do while (strcmp(cursor, "0") == 0) {
 
     redisReply* reply = redisCommand(s->context, "ZSCAN cursor setname");
@@ -169,7 +163,7 @@ char** get_defused(session_t* s, char* setname)
 
     for (int i = 0; values[1][i] != NULL; i++) {
       user = values[1][i];
-      
+
       if (findScore(user) == 60) {
         defused[d1] = user;
         d1++;
@@ -181,23 +175,21 @@ char** get_defused(session_t* s, char* setname)
 
   return defused;
 }
-=======
-int find_score(char* value) 
-// This function returns the score of the entry associated with value 
-{ 
-        if (!connected(s)) 
-        s->context = connect("127.0.0.1", 6379);  
-        if(s == NULL || s->err) { 
-                printf("Error: %s\n", s->errstr);  
-                return 1;  
-        } 
-        redisReply* reply = redisCommand(c, "GET value");  
-        if(reply == NULL) 
-        { 
-                fprintf(stderr, "unable to find the user");  
-                return 1;  
-        }  
-        freeReplyObject(reply);  
-}
 
->>>>>>> 37e686cfb120869a2db35f2a8a1c10a386a8c2c9
+int find_score(char* value)
+// This function returns the score of the entry associated with value
+{
+        if (!connected(s))
+        s->context = connect("127.0.0.1", 6379);
+        if(s == NULL || s->err) {
+                printf("Error: %s\n", s->errstr);
+                return 1;
+        }
+        redisReply* reply = redisCommand(c, "GET value");
+        if(reply == NULL)
+        {
+                fprintf(stderr, "unable to find the user");
+                return 1;
+        }
+        freeReplyObject(reply);
+}

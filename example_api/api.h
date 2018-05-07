@@ -6,7 +6,7 @@
 #ifndef INCLUDE_API_H_
 #define INCLUDE_API_H_
 
-#include "./hiredis/hiredis.h"
+#include "./hiredis-0.13.3/hiredis.h"
 
 typedef struct {
   redisContext *context;
@@ -20,7 +20,7 @@ typedef struct {
  * Returns:
  *  int - 1 for success, 0 for failure
  */
-int addUser(session_t *s, char *name);
+int set_add(session_t *s, char *name);
 
 /*
  * removeUser - removes a user from the leaderboard
@@ -30,9 +30,9 @@ int addUser(session_t *s, char *name);
  * Returns:
  *  int - 1 for success, 0 for failure
  */
-int removeUser(session_t *s, char *name);
+int set_rem(session_t *s, char *name);
 
-int incr_member(char* setname,char* memname double incrby);
+int incr_member(char* setname,char* memname, double incrby);
 
 int decr_member(char* setname,char* memname, double decrby);
 
