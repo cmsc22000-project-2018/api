@@ -36,4 +36,14 @@ int incr_member(char* setname,char* memname double incrby);
 
 int decr_member(char* setname,char* memname, double decrby);
 
+/*
+ * find_score - finds the score of the user given the value associated 
+ * with the user
+ * 
+ * Parameters: 
+ *  char *value - value assocaited with the user
+ * Returns: 
+ *  int the user's score 
+ */  
+int find_score(char *value); 
 #endif

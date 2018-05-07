@@ -122,3 +122,22 @@ int decr_member(char* setname, char* memname, double decrby)
 	}
         freeReplyObject(reply);
 }
+
+int find_score(char* value) 
+// This function returns the score of the entry associated with value 
+{ 
+        if (!connected(s)) 
+        s->context = connect("127.0.0.1", 6379);  
+        if(s == NULL || s->err) { 
+                printf("Error: %s\n", s->errstr);  
+                return 1;  
+        } 
+        redisReply* reply = redisCommand(c, "GET value");  
+        if(reply == NULL) 
+        { 
+                fprintf(stderr, "unable to find the user");  
+                return 1;  
+        }  
+        freeReplyObject(reply);  
+}
+
