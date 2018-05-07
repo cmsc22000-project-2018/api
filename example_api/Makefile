@@ -12,8 +12,6 @@ LDLIBS = -lhiredis
 
 DYN_LDFLAGS = -L./hiredis/ -Wl,-rpath,./hiredis/
 
-BINS = app
-
 SRCS = incr_decr_scores.c 
 
 OBJS = $(SRCS:.c=.o)
@@ -21,4 +19,4 @@ OBJS = $(SRCS:.c=.o)
 .PHONY: all
 
 all:
-	$(CC) $(CFLAGS)  -o $(BIN) $(SRCS)
+	$(CC) $(CFLAGS)  -o $(SRCS)
