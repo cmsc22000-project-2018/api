@@ -4,7 +4,34 @@
 
 #include <hiredis.h>
 
+/* Author: Neha Lingareddy
+Date: May 6th 2018
+Purpose: Writing functions that make interactions between servers and developers easier
+using the hiredis client library 
+*/
+
+
+redisContext *connect(const char *ip, int port)
+// ^ This function written by alan to connect. 
+{
+  	redisContext *c = redisConnect(ip, port);
+  	if (c == NULL || c->err)
+  	{
+   		if (c)
+   		{
+      			fprintf(stderr, "err: %s\n", c->errstr);
+   		}
+    		else
+    		{
+      		fprintf(stderr, "err connect: cannot allocate redis context\n");
+		}
+		return NULL;
+	}
+	return c;
+}
+
 int incr_member(char* setname,char* memname double incrby)
+// This function increments the score of a member in a specified set 
 {
 	if (!connected(s))
     	s->context = connect("127.0.0.1", 6379);
@@ -23,6 +50,7 @@ int incr_member(char* setname,char* memname double incrby)
 }
 
 int decr_member(char* setname,char* memname, double decrby)
+// This function decrements the score of a member in a specified set
 {
 	if (!connected(s))
         s->context = connect("127.0.0.1", 6379);
