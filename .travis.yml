@@ -1,0 +1,16 @@
+language: c
+
+install: true
+
+branches:
+  only:
+    - master
+    - alan/example_api
+
+jobs:
+  include:
+    - stage: build
+      script: echo Built!
+    - stage: test
+      script: echo Tested!
+
