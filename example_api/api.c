@@ -122,3 +122,63 @@ int decr_member(char* setname, char* memname, double decrby)
 	}
         freeReplyObject(reply);
 }
+
+/* Author: AK Alilonu
+Date: May 7th 2018
+*/
+
+char** get_defused(session_t* s, char* setname)
+{
+
+	if (!connected(s)) {
+    s->context = connect("127.0.0.1", 6379);
+  }
+
+  if(s == NULL || s->err) {
+    printf("Error not connecting to redis server: %s\n", s->errstr);
+		return 1;
+	}
+
+  char* cursor = "0";
+  int d;
+  int d1 = 0;
+
+  do while (strcmp(cursor, "0") == 0) {
+
+    redisReply* reply = redisCommand(s->context, "ZSCAN cursor setname");
+    char** values = *reply;
+
+    for (int i = 0; values[1][i] != NULL; i++) {
+      char* user = values[1][i];
+      redisReply* reply = redisCommand(s->context, "ZSCORE setname user");
+      
+      if (*reply == 60) {
+        d++;
+      }
+    }
+
+    cursor = values[0][0];
+  }
+
+  char** defused = (char*) malloc(sizeof(char*) * d);
+  
+  do while (strcmp(cursor, "0") == 0) {
+
+    redisReply* reply = redisCommand(s->context, "ZSCAN cursor setname");
+    values = *reply;
+
+    for (int i = 0; values[1][i] != NULL; i++) {
+      user = values[1][i];
+      redisReply* reply = redisCommand(s->context, "ZSCORE setname user");
+      
+      if (*reply == 60) {
+        defused[d1] = user;
+        d1++;
+      }
+    }
+
+    cursor = values[0][0];
+  }
+
+  return defused;
+}
