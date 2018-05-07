@@ -46,4 +46,25 @@ int decr_member(char* setname,char* memname, double decrby);
  *  int the user's score 
  */  
 int find_score(char *value); 
+
+/* 
+ * print_leaderboard_ascending - prints the leaderboard in ascending order using ZRANGE 
+ * 
+ * Parameters:
+ * - s: session name
+ * - lb: leaderboard name
+ * 
+ */
+void print_leaderboard_ascending(session_t* s, char* lb);
+
+/* 
+ * print_leaderboard_descending - prints the leaderboard in descending order using ZREVRANGE 
+ * 
+ * Parameters:
+ * - s: session name
+ * - lb: leaderboard name
+ * 
+ */
+void print_leaderboard_descending(session_t* s, char* lb);
+
 #endif

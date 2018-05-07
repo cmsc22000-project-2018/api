@@ -193,3 +193,49 @@ int find_score(char* value)
         }
         freeReplyObject(reply);
 }
+
+/* 
+ * Author: Vanessa Cai
+ * Task: Implementing print leaderboard, ascending and descending
+ */
+
+void print_leaderboard_ascending(session_t* s, char* lb) {
+        if (!connected(s))
+        	s->context = connect("127.0.0.1", 6379);
+        if(!s || s->err) {
+                fprintf(stderr,"Error: %s\n", s->errstr);
+                return 1;
+        }
+        redisReply* reply = redisCommand(p,"ZRANGE lb");
+        if(!reply) {
+                fprintf(stderr, "Could not find leaderboard");
+                return 1;
+        }
+	    char** values = *reply;
+	    char* user;
+	for (int i = 0; values[1][i]; i++)
+	    printf("%s\n",values[1][i]);
+	
+        freeReplyObject(reply);
+}
+
+void print_leaderboard_descending(session_t* s, char* lb) {
+        if (!connected(s))
+        	s->context = connect("127.0.0.1", 6379);
+        if(!s || s->err) {
+                fprintf(stderr,"Error: %s\n", s->errstr);
+                return 1;
+        }
+        redisReply* reply = redisCommand(p,"ZREVRANGE lb");
+        if(!reply) {
+                fprintf(stderr, "Could not find leaderboard");
+                return 1;
+        }
+	    char** values = *reply;
+	    char* user;
+	for (int i = 0; values[1][i]; i++)
+	    printf("%s\n",values[1][i]);
+	
+        freeReplyObject(reply);
+}
+
