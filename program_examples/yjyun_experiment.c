@@ -66,7 +66,8 @@ freeReplyObject(reply);
  * the return type is "array reply"
  */ 
 redisReply* reply = redisCommand(c, "ZRANGEBYSCORE fruitbasket 200 500"); 
-printf("The list of fruits that fall under the specified calories interval is");for(int i = 0; reply->elements[i] != NULL; i=i+2){
+printf("The list of fruits that fall under the specified calories interval");
+for(int i = 0; reply->elements[i] != NULL; i=i+2){
 	printf("the calories: %d, the fruit: %c", reply->elements[i], 
                                                   reply->elements[i+1]); 
         printf("\n"); 
