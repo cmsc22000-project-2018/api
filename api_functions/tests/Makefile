@@ -7,8 +7,8 @@ RM = rm -f
 BIN = test-libgeometry
 LDLIBS = -lhiredis
 
-SRCS = api.c 
-OBJS = api.o 
+SRCS = evi.c 
+OBJS = evi.o 
 
 .PHONY: all
 all: ${BIN}
