@@ -1,14 +1,30 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -g -fPIC 
-LIB = ./hiredis/libhiredis.so
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I 
+LIB = hiredis
 LDFLAGS = -shared
 RM = rm -f
-LDLIBS = -lhiredis
-DYN_LDFLAGS = -L/hiredis/ -Wl,-rpath,/hiredis/
-SRCS = api.c evi.c
-OBJS = $(SRCS:.c=.o)
+LDLIBS = -lm
+#DYN_LDFLAGS = -L../api/hiredis/ -Wl,-rpath,../api/hiredis/
+SRCS = api.c 
+OBJS = api.o
 
 .PHONY: all
 
-all: api.h api.c evi.c
-	$(CC) $(DYN_LDFLAGS) $(CFLAGS) -o ev.o $(SRCS) $(LDLIBS)
+all: ${LIB}
+
+${LIB}: ${OBJS} 
+	$(CC) ${LDFLAGS} -o $@ $^ ${LD_LIBS}
+
+$(SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< >$@
+
+include $(SRCS: .c=.d)
+
+.PHONY: clean tests
+clean:
+	${RM} ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
+	make -C ./tests clean
+	
+tests: ${TARGET_LIB}
+	make -C ./tests
+
