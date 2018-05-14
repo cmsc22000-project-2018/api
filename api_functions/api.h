@@ -19,42 +19,84 @@ redisContext *connect(const char *ip, int port);
 int connected(session_t *s);
 
 /*
- * addUser - adds a user to the leaderboard
+ * set_add - adds a member to the set
  *
  * Parameters:
- *  char *name - name of the user
+ *  session_t *s - name of the session
+ *  char *setname - name of the set
+ *  char *memname - name of the member
+ *  double score - score of the member
  * Returns:
- *  int - 1 for success, 0 for failure
+ *  int - 0 for success, 1 for failure
  */
 int set_add(session_t *s, char *setname, char *memname, double score);
 
 /*
- * removeUser - removes a user from the leaderboard
+ * set_rem - removes a member from the set
  *
  * Parameters:
- *  char *name - name of the user
+ *  session_t *s - name of the session
+ *  char *setname - name of the set
+ *  char *memname - name of the member
  * Returns:
- *  int - 1 for success, 0 for failure
+ *  int - 0 for success, 1 for failure
  */
 int set_rem(session_t *s, char *setname, char *memname);
 
-int set_incr(session_t *s, char* setname,char* memname, double incrby);
+/*
+ * set_incr - increments a member of a set by a value 
+ * 
+ * Parameters:
+ *  session_t *s - name of the session
+ *  char* setname - name of the set
+ *  char* memname - name of the member 
+ *  double incrby - value to increment member by 
+ * Returns: 
+ *  int - 0 for success, 1 for failure 
+ */
+int set_incr(session_t *s, char* setname, char* memname, double incrby);
 
+/*
+ * set_decr - increments a member of a set by a value 
+ * 
+ * Parameters:
+ *  session_t *s - name of the session
+ *  char* setname - name of the set
+ *  char* memname - name of the member 
+ *  double decrby - value to increment member by 
+ * Returns: 
+ *  int - 0 for success, 1 for failure 
+ */
 int set_decr(session_t *s, char* setname,char* memname, double decrby);
 
 /*
- * retrieve_member - gets the member associated with the value
+ * retrieve_member - gets the value associated with the member
  *
  * Parameters: 
- *  char *value - value associated with the user
+ *  session_t *s - name of the session
+ *  char* setname - name of the set
+ *  char *memname - name associated with the member
  * Returns: 
- *  char* the member associated with the value 
+ *  int the score associated with the member
  */ 
-int retrieve_member(session_t *s, char* value); 
+int retrieve_member(session_t *s, char* setname, char* memname); 
+
+/* 
+ * get_rank - get the position of the member in the set 
+ * 
+ * Parameters:
+ *  - session_t *s - name of the session
+ *  - char *setname - name of the set
+ *  - char *memname - name of the member
+ * Returns: 
+ *  - int the position of the member 
+ */
+int get_rank(session_t *s, char* setname, char* memname);
 
 /*
  * how_many_members - tells you how many members are in the set
  * Parameters: 
+ *  session_t* s - name of the session
  *  char *setname - the name of the set
  * Returns: 
  *  int the number of elements in the set

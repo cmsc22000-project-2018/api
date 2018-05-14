@@ -107,8 +107,8 @@ int set_decr(session_t* s, char* setname, char* memname, double decrby)
 	return 0;
 }
 
-int retrieve_member(session_t* s, char* value)
-// This function retrieves the member associated with the value given 
+int retrieve_member(session_t* s, char* setname, char* memname)
+// This function retrieves the value associated with the value given 
 {
 	if (!connected(s))
 	s->context = connect("127.0.0.1", 6379); 
@@ -116,15 +116,35 @@ int retrieve_member(session_t* s, char* value)
 		printf("error: %s\n", s->context->errstr); 
 		return 1; 
 	}
-	redisReply* reply = redisCommand(s->context, "GET %s", value); 
+	redisReply* reply = redisCommand(s->context, "ZSCORE %s %s", setname, memname); 
 	if (reply == NULL) 
 	{
 		fprintf(stderr, 
-		"GET: unable to get the member associated with the value"); 
+		"ZSCORE: unable to get the member associated with the value"); 
 	}
 	freeReplyObject(reply); 
 	return 0;  
 }
+
+int get_rank(session_t* s, char* setname, char* memname)
+// This function retrieves the position of the given member
+{
+        if (!connected(s))
+        s->context = connect("127.0.0.1", 6379);
+        if(s == NULL || s->context->err){
+                printf("error: %s\n", s->context->errstr);
+                return 1;
+        }
+        redisReply* reply = redisCommand(s->context, "ZRANK %s %s", setname, memname);
+        if (reply == NULL)
+        {
+                fprintf(stderr,
+                "GET: unable to get the member associated with the value");
+        }
+        freeReplyObject(reply);
+        return 0;
+}
+
 
 int how_many_members(session_t* s, char* setname)
 //This function tells you how many members are in the set
@@ -164,6 +184,9 @@ int how_many_members_restricted(session_t* s, char* setname, double lower, doubl
 	return 0; 
 }
 
+/* ISSUE: returns an int when it should return a char** 
+ * Or, it can return an int but have an array param
+ */ 
 int retrieve_members_ordered_restricted(session_t* s, char* setname, double lower, double upper)
 // This function returns an array of ordered members that fall under the 
 //restriction
