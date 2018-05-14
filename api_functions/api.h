@@ -42,4 +42,15 @@ int set_incr(session_t *s, char* setname,char* memname, double incrby);
 
 int set_decr(session_t *s, char* setname,char* memname, double decrby);
 
+/*
+ * retrieve_member - gets the member associated with the value
+ *
+ * Parameters: 
+ *  char *value - value associated with the user
+ * Returns: 
+ *  char* the member associated with the value 
+ */ 
+char* retrieve_member(session_t *s, char* value); 
+
+
 #endif

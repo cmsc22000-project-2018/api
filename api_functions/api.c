@@ -116,3 +116,22 @@ int set_decr(session_t* s, char* setname, char* memname, double decrby)
 	return 0;
 }
 
+char* retrieve_member(session_t* s, char* value)
+// This function retrieves the member associated with the value given 
+{
+	if (!connected(s))
+	s->context = connect("127.0.0.1", 6379); 
+	if(s == NULL || s->context->err){
+		printf("error: %s\n", s->context->errstr); 
+		return 1; 
+	}
+	redisReply* reply = redisCommand(s->context, "GET %s", value); 
+	if (reply == NULL) 
+	{
+		fprintf(stderr, "GET: unable to get the member associated 
+                                 with the value"); 
+	}
+	freeReplyObject(reply); 
+	return 0; 
+}
+
