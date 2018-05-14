@@ -3,18 +3,9 @@
 #include <string.h>
 
 #include "api.h"
-#include "./hiredis/hiredis.h"
+#include "hiredis/hiredis.h"
 
 
-/*
- * connect - start a new session
- *
- * parameters
- *  const char *ip - server ip
- *  int port - server port
- * returns
- *  redisContext if successful, NULL otherwise
- */
 redisContext *connect(const char *ip, int port)
 { 
   redisContext *c = redisConnect(ip, port);
