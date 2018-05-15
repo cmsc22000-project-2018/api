@@ -42,7 +42,7 @@ if (c == NULL || c->err) {
 		printf("Error: %s\n", c->errstr); 
 	} else {
 		printf("Can't allocate redis context\n"); 
-	}
+	} 
 }
 printf("%d\n", c->err); 
 set_add(c, "fruitbasket", "banana", 300); 
