@@ -6,65 +6,63 @@
 #ifndef INCLUDE_API_H_
 #define INCLUDE_API_H_
 
-#include "./hiredis-0.13.3/hiredis.h"
+#include <hiredis/hiredis.h>
 
-typedef struct {
-  redisContext *context;
-} session_t;
+typedef struct
+{
+    char *name; // name of sorted set
+    redisContext *context;
+} zset_t;
 
 /*
- * addUser - adds a user to the leaderboard
+ * zset_add - adds an element to a sorted set
  *
  * Parameters:
- *  char *name - name of the user
+ *  zset_t *z - sorted set wrapper struct
+ *  char *key - key for the element
+ *  int score - score for the element
  * Returns:
  *  int - 1 for success, 0 for failure
  */
-int set_add(session_t *s, char *name);
+int zset_add(zset_t *z, char *key, int score);
 
 /*
- * removeUser - removes a user from the leaderboard
+ * zset_rem - removes an element from a sorted set
  *
  * Parameters:
- *  char *name - name of the user
+ *  zset_t *z - sorted set wrapper struct
+ *  char *key - key for the element
  * Returns:
  *  int - 1 for success, 0 for failure
  */
-int set_rem(session_t *s, char *name);
+int zset_rem(zset_t *z, char *key);
 
-int incr_member(char* setname,char* memname, double incrby);
-
-int decr_member(char* setname,char* memname, double decrby);
-
-/*
- * find_score - finds the score of the user given the value associated 
- * with the user
- * 
- * Parameters: 
- *  char *value - value assocaited with the user
- * Returns: 
- *  int the user's score 
- */  
-int find_score(char *value); 
-
-/* 
- * print_leaderboard_ascending - prints the leaderboard in ascending order using ZRANGE 
- * 
- * Parameters:
- * - s: session name
- * - lb: leaderboard name
- * 
+/* zset_new - returns pointer to a new zset_t struct
+ *
+ *  Parameters:
+ *      char *name - name of sorted set
+ *  Returns:
+ *      zset_t* - pointer to new zset_t struct, NULL otherwise
  */
-void print_leaderboard_ascending(session_t* s, char* lb);
+zset_t* zset_new(char *name);
 
-/* 
- * print_leaderboard_descending - prints the leaderboard in descending order using ZREVRANGE 
- * 
- * Parameters:
- * - s: session name
- * - lb: leaderboard name
- * 
+/* zset_init - initializes fields in a zset struct
+ *
+ *  Parameters:
+ *      zset_t* zset - pointer to zset
+ *      char *name - name of the new zset
+ *  Returns:
+ *      0 for success, 1 for error
  */
-void print_leaderboard_descending(session_t* s, char* lb);
+int zset_init(zset_t *zset, char *name);
+
+/* zset_free - frees zset struct
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *  Returns:
+ *      0 for success, 1 for error
+ */
+int zset_free(zset_t *zset);
 
 #endif
