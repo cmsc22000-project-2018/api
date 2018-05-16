@@ -73,4 +73,7 @@ int zset_rem(zset_t *z, char *name);
 
 int zset_card(zset_t* z);
 
+int zset_score(zset_t* z, char* memname);
+
+int zset_rank(zset_t* z, char* memname);
 #endif

@@ -107,7 +107,7 @@ int zset_add(zset_t *z, char *key, int score)
         return 0;
     }
 
-    printf("ZADD: %s\n", reply->str);
+    printf("ZADD: %lld\n", reply->integer);
     freeReplyObject(reply);
     return 1;
 }
@@ -180,3 +180,32 @@ int zset_card(zset_t* z) {
         return 1;
 }
 
+/* Vanessa */
+int zset_score(zset_t* z, char* memname) {
+	if (!connected(z))
+                z->context = apiConnect("127.0.0.1", 6379);
+        redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
+        if (reply == NULL) {
+                printf("ERROR: %s\n", reply->str);
+                freeReplyObject(reply);
+                return 0;
+        }
+        printf("ZSCORE: %s\n", reply->str);
+        freeReplyObject(reply);
+        return 1;
+}
+
+int zset_rank(zset_t* z, char* memname) {
+        if (!connected(z))
+                z->context = apiConnect("127.0.0.1", 6379);
+        redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, memname);
+        if (reply == NULL) {
+                printf("ERROR: %s\n", reply->str);
+                freeReplyObject(reply);
+                return 0;
+        }
+		printf("ZRANK: %lld\n", reply->integer);
+        freeReplyObject(reply);
+        return 1;
+}
+ 
