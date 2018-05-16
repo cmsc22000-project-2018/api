@@ -97,6 +97,7 @@ int zset_add(zset_t *z, char *key, int score)
 {
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+	
 
     redisReply *reply = redisCommand(z->context, "ZADD %s %d %s", z->name, score, key);
 

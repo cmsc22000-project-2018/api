@@ -65,12 +65,12 @@ int zset_init(zset_t *zset, char *name);
  */
 int zset_free(zset_t *zset);
 
-int set_incr(zset_t* zset, char* memname, int incrby);
+int zset_incr(zset_t* zset, char* memname, int incrby);
 
-int set_decr(zset_t* zset, char* memname, int decrby);
+int zset_decr(zset_t* zset, char* memname, int decrby);
 
-int set_rem(zset_t *z, char *name); 
+int zset_rem(zset_t *z, char *name); 
 
-int get_num_members(zset_t* z);
+int zset_card(zset_t* z);
 
 #endif
