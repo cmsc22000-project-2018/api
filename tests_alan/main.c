@@ -13,7 +13,7 @@ int main() {
     zset_add(aa, "b", 2);
     set_rem(aa, "b");
     zset_add(aa, "c", 3); 
-    how_many_members(aa);
+    get_num_members(aa);
 
     return 0;
 }

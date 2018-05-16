@@ -110,14 +110,14 @@ int zset_add(zset_t *z, char *key, int score)
     freeReplyObject(reply);
     return 1;
 }
-/*
-// see api.h
-int set_rem(session_t *s, char *name)
-{
-  if (!connected(s))
-    s->context = connect("127.0.0.1", 6379); //localhost
 
-  redisReply *reply = redisCommand(s->context, "ZREM leaderboard %s", name);
+// see api.h
+int set_rem(zset_t *z, char *name)
+{
+  if (!connected(z))
+    z->context = apiConnect("127.0.0.1", 6379); //localhost
+
+  redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, name);
 
   if (reply == NULL) {
     freeReplyObject(reply);
@@ -126,17 +126,17 @@ int set_rem(session_t *s, char *name)
   freeReplyObject(reply);
   return 1;
 }
-*/
 
-//Neha's refactored code to increment and decrement scores in a sorted set  
 
-int set_incr(zset_t* z, char* memname, int incrby)
-// This function increments the score of a member in a specified set
+/* Neha */  
+
+// increments the score of a member in a specified set
+int set_incr(zset_t* z, char* key, int incrby)
 {
 	if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
 
-	redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, incrby, memname);
+	redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, incrby, key);
 	
 	if (reply == NULL) {
         printf("ERROR: %s\n", reply->str);
@@ -147,14 +147,13 @@ int set_incr(zset_t* z, char* memname, int incrby)
         return 1;
 }
 
-	
-int set_decr(zset_t* z, char* memname, int decrby)
-// This function decrements the score of a member in a specified set 
+// decrements the score of a member in a specified set 
+int set_decr(zset_t* z, char* key, int decrby)
 {
 	if(!connected(z))
 	z->context = apiConnect("127.0.0.1", 6379); //localhost
 
-        redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, -decrby,memname);
+        redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, -decrby, key);
 	
 	if(reply == NULL) {
 	printf("ERROR: %s\n", reply->str);
@@ -165,24 +164,8 @@ int set_decr(zset_t* z, char* memname, int decrby)
         return 1;
 }
 
-//Written by Alan originally, refactored by Young-Joo 
-int set_rem(zset_t *z, char *name)
-{
-        if (!connected(z))
-                z->context = apiConnect("127.0.0.1", 6379); //localhost
-        redisReply *reply = redisCommand(z->context, "ZREM %s %s",
-                            z->name, name);
-        if (reply == NULL) {
-                printf("ERROR: %s\n", reply->str);
-                freeReplyObject(reply);
-                return 0;
-        }
-        freeReplyObject(reply);
-        return 1;
-}
-
-//by Young-Joo
-int how_many_members(zset_t* z) {
+/* Young-Joo */
+int get_num_members(zset_t* z) {
         if (!connected(z))
                 z->context = apiConnect("127.0.0.1", 6379);
         redisReply* reply = redisCommand(z->context, "ZCARD %s", z->name);

@@ -71,6 +71,6 @@ int set_decr(zset_t* zset, char* memname, int decrby);
 
 int set_rem(zset_t *z, char *name); 
 
-int how_many_members(zset_t* z);
+int get_num_members(zset_t* z);
 
 #endif
