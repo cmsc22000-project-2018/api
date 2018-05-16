@@ -125,4 +125,7 @@ int zset_score(zset_t* z, char* memname);
  *      the rank of the given member
  */
 int zset_rank(zset_t* z, char* memname);
+
+char** zset_revrange(zset_t* z, int start, int stop);
+
 #endif

@@ -21,6 +21,8 @@ int main() {
     zset_rem(aa, "b");
     zset_add(aa, "c", 3); 
     zset_card(aa);
-
+    char** s = malloc(sizeof(char*)*10);
+    s = zset_revrange(test_zset, 1,3);
+    printf("%s", s[1]);	
     return 0;
 }

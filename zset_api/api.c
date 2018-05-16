@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
+#include <string.h>
 #include "api.h"
 
 // see zset_api.h
@@ -164,6 +164,29 @@ int zset_decr(zset_t* z, char* key, int decrby)
         printf("ZDECRBY: %s\n", reply->str);
         return 1;
 }
+
+// returns ranked list of members
+char** zset_revrange(zset_t* z, int start, int stop)
+{
+	unsigned int i;
+        if(!connected(z))
+        z->context = apiConnect("127.0.0.1", 6379); //localhost
+
+        redisReply *reply = redisCommand(z->context, "ZREVRANGE %s %d %d", z->name,start, stop);
+
+        if(reply == NULL) {
+        fprintf(stderr,"ERROR: %s\n", reply->str);
+        freeReplyObject(reply);
+        }
+	char** s = malloc(sizeof(char*) * reply->elements);
+	for(i=0; i < reply->elements; i++)
+	{
+		printf("ZREVRANGE %d:%s \n",i, reply->element[i]->str);
+        	strncpy(s[i],reply->element[i]->str, sizeof(*s));
+	}
+	return s;
+}
+
 
 /* Young-Joo */
 int zset_card(zset_t* z) {
