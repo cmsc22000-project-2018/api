@@ -3,13 +3,6 @@
 #include <string.h>
 #include "connect.h"
 #include "hiredis/hiredis.h"
-#include "hiredis/async.h"
-#include "hiredis/fmacros.h"
-#include "hiredis/net.h"
-#include "hiredis/read.h"
-#include "hiredis/sds.h"
-#include "hiredis/sdsalloc.h"
-#include "hiredis/win32.h"
 
 /* Started working at 10:13PM Sunday May 13th, 2018 
  * Sources: https://www.youtube.com/watch?v=Hbt56gFj998
@@ -44,6 +37,6 @@ if (c == NULL || c->err) {
 		printf("Can't allocate redis context\n"); 
 	} 
 }
-printf("%d\n", c->err); 
+printf("is this error %d\n", c->err); 
 set_add(c, "fruitbasket", "banana", 300); 
 }
