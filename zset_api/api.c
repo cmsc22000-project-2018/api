@@ -182,7 +182,8 @@ char** zset_revrange(zset_t* z, int start, int stop)
 	for(i=0; i < reply->elements; i++)
 	{
 		printf("ZREVRANGE %d:%s \n",i, reply->element[i]->str);
-        	strncpy(s[i],reply->element[i]->str, sizeof(*s));
+        	s[i] = (char*)malloc(sizeof(char)*20);
+		strncpy(s[i],reply->element[i]->str, sizeof(*s));
 	}
 	return s;
 }
