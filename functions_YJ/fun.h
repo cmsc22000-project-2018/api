@@ -47,4 +47,5 @@ int how_many_members_restricted(zset_t* z, double lower, double upper);
  */ 
 int retrieve_members_ordered_restricted(zset_t* z, double lower, double upper);
 
+int set_rem(zset_t *z, char *name); 
 #endif 

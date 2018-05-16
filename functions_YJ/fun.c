@@ -104,7 +104,7 @@ int zset_add(zset_t *z, char *key, int score)
         return 0;
     }
 
-    printf("ZADD: %s\n", reply->str);
+    printf("ZADD: %d\n", reply->type);
     freeReplyObject(reply);
     return 1;
 }
@@ -138,7 +138,7 @@ int how_many_members(zset_t* z)
                 freeReplyObject(reply); 
                 return 0; 
         }
-	printf("ZCARD: %s\n", reply->str); 
+	printf("ZCARD: %lld\n", reply->integer); 
         freeReplyObject(reply);
         return 1;
 }
@@ -161,4 +161,18 @@ int how_many_members_restricted(zset_t* z, double lower, double upper)
         return 1; 
 }
 
+int set_rem(zset_t *z, char *name)
+{
+	if (!connected(z))
+		z->context = apiConnect("127.0.0.1", 6379); //localhost
+	redisReply *reply = redisCommand(z->context, "ZREM %s %s", 
+                            z->name, name);
+	if (reply == NULL) {
+		printf("ERROR: %s\n", reply->str); 
+		freeReplyObject(reply);
+		return 0; 
+	}
+  	freeReplyObject(reply);
+  	return 1;
+}
 
