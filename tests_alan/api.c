@@ -128,7 +128,8 @@ int set_rem(session_t *s, char *name)
 }
 */
 
-//Neha's code 
+//Neha's refactored code to increment and decrement scores in a sorted set  
+
 int set_incr(zset_t* z, char* memname, int incrby)
 // This function increments the score of a member in a specified set
 {
@@ -142,7 +143,7 @@ int set_incr(zset_t* z, char* memname, int incrby)
         freeReplyObject(reply);
         return 0;
     	}
-	printf("ZINCRBY: %s", reply->str);
+	printf("ZINCRBY: %s\n", reply->str);
         return 1;
 }
 
@@ -160,7 +161,7 @@ int set_decr(zset_t* z, char* memname, int decrby)
         freeReplyObject(reply);
         return 0;
         }
-        printf("ZDECRBY: %s", reply->str);
+        printf("ZDECRBY: %s\n", reply->str);
         return 1;
 }
 
