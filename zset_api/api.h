@@ -65,15 +65,64 @@ int zset_init(zset_t *zset, char *name);
  */
 int zset_free(zset_t *zset);
 
+/* zset_incr - increments zset struct by some amt
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *      char *memname - name of member
+ *      int incrby - increment amount
+ *  Returns:
+ *      new value of member
+ */
 int zset_incr(zset_t* zset, char* memname, int incrby);
 
+/* zset_decr - decrements zset struct by some amt
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *      char *memname - name of member
+ *      int decrby - decrement amount
+ *  Returns:
+ *      new value of member
+ */
 int zset_decr(zset_t* zset, char* memname, int decrby);
 
+/* zset_rem - removes a member of a zset
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *      char *memname - name of member
+ *  Returns:
+ *      the number of members removed
+ */
 int zset_rem(zset_t *z, char *name); 
 
+/* zset_card - returns the cardinality of a given set
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *  Returns:
+ *      cardinality of set
+ */
 int zset_card(zset_t* z);
 
+/* zset_score - returns zset score
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *      char *memname - name of member
+ *  Returns:
+ *      score of member
+ */
 int zset_score(zset_t* z, char* memname);
 
+/* zset_rank - returns rank of a member of a set sorted in ascending order 
+ *
+ *  Parameters:
+ *      zset_t *zset - pointer to zset
+ *      char *memname - name of member
+ *  Returns:
+ *      the rank of the given member
+ */
 int zset_rank(zset_t* z, char* memname);
 #endif
