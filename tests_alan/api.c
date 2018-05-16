@@ -164,4 +164,34 @@ int set_decr(zset_t* z, char* memname, int decrby)
         return 1;
 }
 
+//Written by Alan originally, refactored by Young-Joo 
+int set_rem(zset_t *z, char *name)
+{
+        if (!connected(z))
+                z->context = apiConnect("127.0.0.1", 6379); //localhost
+        redisReply *reply = redisCommand(z->context, "ZREM %s %s",
+                            z->name, name);
+        if (reply == NULL) {
+                printf("ERROR: %s\n", reply->str);
+                freeReplyObject(reply);
+                return 0;
+        }
+        freeReplyObject(reply);
+        return 1;
+}
+
+//by Young-Joo
+int how_many_members(zset_t* z) {
+        if (!connected(z))
+                z->context = apiConnect("127.0.0.1", 6379);
+        redisReply* reply = redisCommand(z->context, "ZCARD %s", z->name);
+        if (reply == NULL) {
+                printf("ERROR: %s\n", reply->str);
+                freeReplyObject(reply);
+                return 0;
+        }
+        printf("ZCARD: %lld\n", reply->integer);
+        freeReplyObject(reply);
+        return 1;
+}
 
