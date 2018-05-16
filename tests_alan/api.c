@@ -127,3 +127,41 @@ int set_rem(session_t *s, char *name)
   return 1;
 }
 */
+
+//Neha's code 
+int set_incr(zset_t* z, char* memname, int incrby)
+// This function increments the score of a member in a specified set
+{
+	if (!connected(z))
+        z->context = apiConnect("127.0.0.1", 6379); //localhost
+
+	redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, incrby, memname);
+	
+	if (reply == NULL) {
+        printf("ERROR: %s\n", reply->str);
+        freeReplyObject(reply);
+        return 0;
+    	}
+	printf("ZINCRBY: %s", reply->str);
+        return 1;
+}
+
+	
+int set_decr(zset_t* z, char* memname, int decrby)
+// This function decrements the score of a member in a specified set 
+{
+	if(!connected(z))
+	z->context = apiConnect("127.0.0.1", 6379); //localhost
+
+        redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, -decrby,memname);
+	
+	if(reply == NULL) {
+	printf("ERROR: %s\n", reply->str);
+        freeReplyObject(reply);
+        return 0;
+        }
+        printf("ZDECRBY: %s", reply->str);
+        return 1;
+}
+
+

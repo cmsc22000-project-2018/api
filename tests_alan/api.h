@@ -65,4 +65,8 @@ int zset_init(zset_t *zset, char *name);
  */
 int zset_free(zset_t *zset);
 
+int set_incr(zset_t* zset, char* memname, int incrby);
+
+int set_decr(zset_t* zset, char* memname, int decrby);
+
 #endif
