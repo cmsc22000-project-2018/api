@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
-BIN = con-sample
+BIN = example
 LDLIBS = -lhiredis
 
 SRCS = api.c main.c

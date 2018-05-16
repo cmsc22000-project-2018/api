@@ -112,7 +112,7 @@ int zset_add(zset_t *z, char *key, int score)
 }
 
 // see api.h
-int set_rem(zset_t *z, char *name)
+int zset_rem(zset_t *z, char *name)
 {
   if (!connected(z))
     z->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -131,7 +131,7 @@ int set_rem(zset_t *z, char *name)
 /* Neha */  
 
 // increments the score of a member in a specified set
-int set_incr(zset_t* z, char* key, int incrby)
+int zset_incr(zset_t* z, char* key, int incrby)
 {
 	if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -148,7 +148,7 @@ int set_incr(zset_t* z, char* key, int incrby)
 }
 
 // decrements the score of a member in a specified set 
-int set_decr(zset_t* z, char* key, int decrby)
+int zset_decr(zset_t* z, char* key, int decrby)
 {
 	if(!connected(z))
 	z->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -165,7 +165,7 @@ int set_decr(zset_t* z, char* key, int decrby)
 }
 
 /* Young-Joo */
-int get_num_members(zset_t* z) {
+int zset_card(zset_t* z) {
         if (!connected(z))
                 z->context = apiConnect("127.0.0.1", 6379);
         redisReply* reply = redisCommand(z->context, "ZCARD %s", z->name);
