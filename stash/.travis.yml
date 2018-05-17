@@ -1,0 +1,15 @@
+language: c
+
+install: true
+
+branches:
+  only:
+    - master
+    - develop
+
+jobs:
+  include:
+    - stage: build
+      script: echo Built!
+    - stage: test
+      script: echo Tested!
