@@ -188,24 +188,27 @@ char** zset_revrange(zset_t* z, int start, int stop)
 	return s;
 }
 
-
 // see api.h 
-int zset_remrangebyrank(zset_t* z, int start, int stop)
+char** zset_remrangebyrank(zset_t* z, int start, int stop)
 {
-	if(!connected(z))
-	{
-	        z->context = apiConnect("127.0.0.1", 6379); //localhost
-	}
-
-	redisReply *reply = redisCommand(z->context, "ZREMRANGEBYRANK %s %d %d", z->name,start, stop);
+    if(!connected(z))
+    {
+            z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
+    redisReply *reply = redisCommand(z->context, "ZREMRANGEBYRANK %s %d %d", z->name,start, stop);
 
         if(reply == NULL) {
-        fprintf(stderr,"ERROR: %s\n", reply->str);
+        fprintf(stderr,"ERROR: %s\n", z->context->errstr);
         freeReplyObject(reply);
-        return 0;
-	}
-	printf("ZREMRANGEBYRANK %lld\n", reply->integer);
-	return 1;
+        return &reply->err;
+    }
+    char** s = malloc(sizeof(char*) * reply->elements);
+    for(i=0; i < reply->elements; i++)
+    {
+        s[i] = (char*)malloc(sizeof(char)*20);
+        strncpy(s[i],reply->element[i]->str, sizeof(*s));
+    }
+    return s;
 }
 
 

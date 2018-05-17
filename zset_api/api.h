@@ -144,6 +144,6 @@ char** zset_revrange(zset_t* z, int start, int stop);
  *  Returns:
  *      0 for failure, 1 for success
  */
-int zset_remrangebyrank(zset_t* z, int start, int stop);
+char** zset_remrangebyrank(zset_t* z, int start, int stop);
 
 #endif
