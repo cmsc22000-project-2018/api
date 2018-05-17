@@ -131,7 +131,7 @@ int zset_rem(zset_t *z, char *name)
 
 /* Neha */  
 
-// increments the score of a member in a specified set
+// see api.h 
 int zset_incr(zset_t* z, char* key, int incrby)
 {
 	if (!connected(z))
@@ -148,7 +148,7 @@ int zset_incr(zset_t* z, char* key, int incrby)
         return 1;
 }
 
-// decrements the score of a member in a specified set 
+// see api.h 
 int zset_decr(zset_t* z, char* key, int decrby)
 {
 	if(!connected(z))
@@ -165,7 +165,7 @@ int zset_decr(zset_t* z, char* key, int decrby)
         return 1;
 }
 
-// returns ranked list of members
+// see api.h 
 char** zset_revrange(zset_t* z, int start, int stop)
 {
 	unsigned int i;
@@ -186,6 +186,26 @@ char** zset_revrange(zset_t* z, int start, int stop)
 		strncpy(s[i],reply->element[i]->str, sizeof(*s));
 	}
 	return s;
+}
+
+
+// see api.h 
+int zset_remrangebyrank(zset_t* z, int start, int stop)
+{
+	if(!connected(z))
+	{
+	        z->context = apiConnect("127.0.0.1", 6379); //localhost
+	}
+
+	redisReply *reply = redisCommand(z->context, "ZREMRANGEBYRANK %s %d %d", z->name,start, stop);
+
+        if(reply == NULL) {
+        fprintf(stderr,"ERROR: %s\n", reply->str);
+        freeReplyObject(reply);
+        return 0;
+	}
+	printf("ZREMRANGEBYRANK %lld\n", reply->integer);
+	return 1;
 }
 
 

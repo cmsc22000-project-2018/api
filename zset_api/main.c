@@ -6,6 +6,7 @@
 
 int main() {
     zset_t *test_zset = zset_new("fruits");
+    zset_remrangebyrank(test_zset,0,-1);
     zset_add(test_zset, "bananas", 15);
     zset_incr(test_zset, "bananas",3);
     zset_decr(test_zset, "bananas", 2);
@@ -23,6 +24,6 @@ int main() {
     zset_card(aa);
     char** s = malloc(sizeof(char*)*10);
     s = zset_revrange(test_zset, 1,3);
-    printf("%s", s[1]);	
+    printf("%s\n", s[1]);	
     return 0;
 }
