@@ -191,6 +191,7 @@ char** zset_revrange(zset_t* z, int start, int stop)
 // see api.h 
 char** zset_remrangebyrank(zset_t* z, int start, int stop)
 {
+    unsigned int i;
     if(!connected(z))
     {
             z->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -200,7 +201,6 @@ char** zset_remrangebyrank(zset_t* z, int start, int stop)
         if(reply == NULL) {
         fprintf(stderr,"ERROR: %s\n", z->context->errstr);
         freeReplyObject(reply);
-        return &reply->err;
     }
     char** s = malloc(sizeof(char*) * reply->elements);
     for(i=0; i < reply->elements; i++)
