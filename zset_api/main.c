@@ -9,7 +9,7 @@ int main() {
     printf("zset_add => %d", zset_add(test_zset, "bananas", 15));
     zset_incr(test_zset, "bananas",3);
     zset_decr(test_zset, "bananas", 2);
-    printf("zset_score => %d", zset_score(test_zset, "bananas"));
+    printf("zset_score => %s", zset_score(test_zset, "bananas") ? zset_score(test_zset, "bananas") : "NULL");
     printf("zset_rank => %d", zset_rank(test_zset, "bananas"));
     printf("zset_add => %d", zset_add(test_zset, "apples", 8));
     printf("zset_add => %d", zset_add(test_zset, "oranges", 6));
