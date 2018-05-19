@@ -202,7 +202,7 @@ char** zset_remrangebyrank(zset_t* z, int start, int stop)
         fprintf(stderr,"ERROR: %s\n", z->context->errstr);
         freeReplyObject(reply);
     }
-    char** s = malloc(sizeof(char*) * reply->elements+1);
+    char** s = malloc(sizeof(char*) * reply->elements + 1);
     for(i=0; i < reply->elements; i++)
     {
         s[i] = (char*)malloc(sizeof(char)*20);
@@ -228,16 +228,16 @@ int zset_card(zset_t* z) {
 }
 
 /* Vanessa */
-char* zset_score(zset_t* z, char* memname) {
-	      char* score;
+int zset_score(zset_t* z, char* memname) {
+	      int score;
         if (!connected(z))
                 z->context = apiConnect("127.0.0.1", 6379);
         redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
         if (reply == NULL) {
                 freeReplyObject(reply);
-                return NULL;
+                return 0;
         }
-        score = reply->str;
+        score = reply->integer;
         freeReplyObject(reply);
         return score;
 }
