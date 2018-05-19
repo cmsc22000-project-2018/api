@@ -24,7 +24,7 @@ int main() {
     char** s = malloc(sizeof(char*)*10);
     s = zset_revrange(test_zset, 1,3);
     printf("%s\n", s[1]);	
-    zset_remrangebyrank(test_zset,0,-1);
-    zset_remrangebyrank(aa,0,-1);
+    s = zset_remrangebyrank(test_zset,0,-1);
+    printf("testing zset_remrangebyrank %s\n",s[0]);
     return 0;
 }
