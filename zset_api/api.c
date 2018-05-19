@@ -237,7 +237,9 @@ char* zset_score(zset_t* z, char* memname) {
                 freeReplyObject(reply);
                 return NULL;
         }
-        score = reply->str;
+        int len = strlen(reply->str);
+        score = (char) malloc(sizeof(char) * len);
+        score = strncpy(score, reply->str, (size_t) len);
         freeReplyObject(reply);
         return score;
 }

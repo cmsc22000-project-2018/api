@@ -6,20 +6,20 @@
 
 int main() {
     zset_t *test_zset = zset_new("fruits");
-    printf("zset_add => %d", zset_add(test_zset, "bananas", 15));
+    printf("zset_add => %d\n", zset_add(test_zset, "bananas", 15));
     zset_incr(test_zset, "bananas",3);
     zset_decr(test_zset, "bananas", 2);
-    printf("zset_score => %s", zset_score(test_zset, "bananas") ? zset_score(test_zset, "bananas") : "NULL");
-    printf("zset_rank => %d", zset_rank(test_zset, "bananas"));
-    printf("zset_add => %d", zset_add(test_zset, "apples", 8));
-    printf("zset_add => %d", zset_add(test_zset, "oranges", 6));
+    printf("zset_score => %s\n", zset_score(test_zset, "bananas") ? zset_score(test_zset, "bananas") : "NULL");
+    printf("zset_rank => %d\n", zset_rank(test_zset, "bananas"));
+    printf("zset_add => %d\n", zset_add(test_zset, "apples", 8));
+    printf("zset_add => %d\n", zset_add(test_zset, "oranges", 6));
     zset_incr(test_zset, "apples", 2);
-    printf("zset_rank => %d", zset_rank(test_zset, "apples"));
-    printf("zset_rank => %d", zset_rank(test_zset, "bananas")); 
+    printf("zset_rank => %d\n", zset_rank(test_zset, "apples"));
+    printf("zset_rank => %d\n", zset_rank(test_zset, "bananas")); 
     zset_t *aa = zset_new("aa");
-    printf("zset_add => %d", zset_add(aa, "b", 2));
+    printf("zset_add => %d\n", zset_add(aa, "b", 2));
     zset_rem(aa, "b");
-    printf("zset_add => %d", zset_add(aa, "c", 3)); 
+    printf("zset_add => %d\n", zset_add(aa, "c", 3)); 
     zset_card(aa);
     char** s = malloc(sizeof(char*)*10);
     s = zset_revrange(test_zset, 1,3);
