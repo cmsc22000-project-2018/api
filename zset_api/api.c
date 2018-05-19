@@ -178,7 +178,7 @@ char** zset_revrange(zset_t* z, int start, int stop)
         fprintf(stderr,"ERROR: %s\n", reply->str);
         freeReplyObject(reply);
         }
-	char** s = malloc(sizeof(char*) * reply->elements);
+	char** s = malloc(sizeof(char*) * reply->elements+1);
 	for(i=0; i < reply->elements; i++)
 	{
 		printf("ZREVRANGE %d:%s \n",i, reply->element[i]->str);
@@ -202,7 +202,7 @@ char** zset_remrangebyrank(zset_t* z, int start, int stop)
         fprintf(stderr,"ERROR: %s\n", z->context->errstr);
         freeReplyObject(reply);
     }
-    char** s = malloc(sizeof(char*) * reply->elements);
+    char** s = malloc(sizeof(char*) * reply->element+1s);
     for(i=0; i < reply->elements; i++)
     {
         s[i] = (char*)malloc(sizeof(char)*20);
