@@ -22,7 +22,7 @@ typedef struct
  *  char *key - key for the element
  *  int score - score for the element
  * Returns:
- *  int - 1 for success, 0 for failure
+ *  int - new number of elements for success, -1 for failure
  */
 int zset_add(zset_t *z, char *key, int score);
 
@@ -114,7 +114,7 @@ int zset_card(zset_t* z);
  *  Returns:
  *      score of member
  */
-int zset_score(zset_t* z, char* memname);
+char* zset_score(zset_t* z, char* memname);
 
 /* zset_rank - returns rank of a member of a set sorted in ascending order 
  *
