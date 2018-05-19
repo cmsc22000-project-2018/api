@@ -228,18 +228,17 @@ int zset_card(zset_t* z) {
 }
 
 /* Vanessa */
-int zset_score(zset_t* z, char* memname) {
-	      int score;
+char* zset_score(zset_t* z, char* memname) {
+	char* score;
         if (!connected(z))
                 z->context = apiConnect("127.0.0.1", 6379);
         redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
         if (reply == NULL) {
-                freeReplyObject(reply);
-                return 0;
+                return "NULL";
         }
-        score = reply->integer;
+        score = reply->str;
         freeReplyObject(reply);
-        return score;
+	return score;
 }
 
 int zset_rank(zset_t* z, char* memname) {
