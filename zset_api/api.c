@@ -189,9 +189,9 @@ char** zset_revrange(zset_t* z, int start, int stop)
 }
 
 // see api.h 
-char** zset_remrangebyrank(zset_t* z, int start, int stop)
+int zset_remrangebyrank(zset_t* z, int start, int stop)
 {
-    unsigned int i;
+    int number;
     if(!connected(z))
     {
             z->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -202,13 +202,8 @@ char** zset_remrangebyrank(zset_t* z, int start, int stop)
         fprintf(stderr,"ERROR: %s\n", z->context->errstr);
         freeReplyObject(reply);
     }
-    char** s = malloc(sizeof(char*) * reply->elements + 1);
-    for(i=0; i < reply->elements; i++)
-    {
-        s[i] = (char*)malloc(sizeof(char)*20);
-        strncpy(s[i],reply->element[i]->str, sizeof(*s));
-    }
-    return s;
+    number = reply->integer;
+    return number;
 }
 
 
@@ -236,7 +231,9 @@ char* zset_score(zset_t* z, char* memname) {
         if (reply == NULL) {
                 return "NULL";
         }
-        score = reply->str;
+        //int len = strlen(reply->str);
+        score = (char*) malloc(sizeof(char) * 20);
+        score = strncpy(score, reply->str, (sizeof(score)));
         freeReplyObject(reply);
 	return score;
 }

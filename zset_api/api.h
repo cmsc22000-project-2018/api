@@ -115,7 +115,7 @@ int zset_card(zset_t* z);
  *      score of member
 */
 
-int zset_score(zset_t* z, char* memname);
+char* zset_score(zset_t* z, char* memname);
 
 /* zset_rank - returns rank of a member of a set sorted in ascending order 
  *
@@ -145,6 +145,6 @@ char** zset_revrange(zset_t* z, int start, int stop);
  *  Returns:
  *      0 for failure, 1 for success
  */
-char** zset_remrangebyrank(zset_t* z, int start, int stop);
+int zset_remrangebyrank(zset_t* z, int start, int stop);
 
 #endif
