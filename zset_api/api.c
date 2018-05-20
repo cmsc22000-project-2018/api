@@ -177,14 +177,15 @@ char** zset_revrange(zset_t* z, int start, int stop)
         if(reply == NULL) {
         fprintf(stderr,"ERROR: %s\n", reply->str);
         freeReplyObject(reply);
-        }
-	char** s = malloc(sizeof(char*) * reply->elements+1);
+	return NULL;
+	}
+	char** s = malloc(sizeof(char*) *(reply->elements+1));
 	for(i=0; i < reply->elements; i++)
 	{
-		printf("ZREVRANGE %d:%s \n",i, reply->element[i]->str);
-        	s[i] = (char*)malloc(sizeof(char)*20);
-		strncpy(s[i],reply->element[i]->str, sizeof(*s));
+        	s[i] = (char*)malloc(sizeof(char)*80);
+		strncpy(s[i],reply->element[i]->str,(sizeof(char)*80));
 	}
+	s[i] = NULL;
 	return s;
 }
 
@@ -223,17 +224,15 @@ int zset_card(zset_t* z) {
 }
 
 /* Vanessa */
-char* zset_score(zset_t* z, char* memname) {
-	char* score;
-        if (!connected(z))
+int zset_score(zset_t* z, char* memname) {
+        int score;
+	if (!connected(z))
                 z->context = apiConnect("127.0.0.1", 6379);
         redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
-        if (reply == NULL) {
-                return "NULL";
+        if (reply->str == NULL) {
+                return -1;
         }
-        //int len = strlen(reply->str);
-        score = (char*) malloc(sizeof(char) * 20);
-        score = strncpy(score, reply->str, (sizeof(score)));
+        score = atoi(reply->str);
         freeReplyObject(reply);
 	return score;
 }
