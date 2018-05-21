@@ -103,7 +103,8 @@ int zset_add(zset_t *z, char *key, int score)
 
     redisReply *reply = redisCommand(z->context, "ZADD %s %d %s", z->name, score, key);
 
-    if (reply == NULL) {
+    if (reply == NULL)
+    {
         printf("ERROR zset_add: %s\n", reply->str);
         freeReplyObject(reply);
 
@@ -127,7 +128,8 @@ int zset_rem(zset_t *z, char *name)
 
     redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, name);
 
-    if (reply == NULL) {
+    if (reply == NULL)
+    {
         printf("ERROR zset_rem: %s\n", reply->str);
         freeReplyObject(reply);
 
@@ -150,13 +152,15 @@ int zset_incr(zset_t* z, char* key, int incrby)
 
     redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, incrby, key);
 
-    if (reply == NULL) {
+    if (reply == NULL)
+    {
         printf("ERROR zset_incr: %s\n", reply->str);
         freeReplyObject(reply);
 
         z->context = NULL;
         return 0;
     }
+
     printf("ZINCRBY: %s\n", reply->str);
     return 1;
 }
@@ -169,7 +173,8 @@ int zset_decr(zset_t* z, char* key, int decrby)
 
     redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, -decrby, key);
 
-    if(reply == NULL) {
+    if(reply == NULL)
+    {
         printf("ERROR zset_decr: %s\n", reply->str);
         freeReplyObject(reply);
 
@@ -177,6 +182,7 @@ int zset_decr(zset_t* z, char* key, int decrby)
 
         return 0;
     }
+
     printf("ZDECRBY: %s\n", reply->str);
     return 1;
 }
@@ -191,88 +197,124 @@ char** zset_revrange(zset_t* z, int start, int stop)
 
     redisReply *reply = redisCommand(z->context, "ZREVRANGE %s %d %d", z->name,start, stop);
 
-    if (reply == NULL) {
-        fprintf(stderr,"ERROR zset_revrange: %s\n", reply->str);
+    if (reply == NULL)
+    {
+        printf("ERROR zset_revrange: %s\n", reply->str);
         freeReplyObject(reply);
 
         z->context = NULL;
 
         return NULL;
     }
-    char** s = malloc(sizeof(char*) * (reply->elements+1));
-    for(i = 0; i < reply->elements; i++)
+
+    // list of members stored in zset
+    char** zset_mems = malloc(sizeof(char *) * (reply->elements + 1));
+
+    for(i = 0; i < reply->elements; ++i)
     {
-        s[i] = (char*)malloc(sizeof(char)*80);
-        strncpy(s[i],reply->element[i]->str,(sizeof(char)*80));
+        // char limit per word: 80
+        zset_mems[i] = (char *)malloc(sizeof(char) * 80);
+        strncpy(zset_mems[i], reply->element[i]->str, (sizeof(char) * 80));
     }
-    s[i] = NULL;
-    return s;
+
+    // mark the end of the return array
+    zset_mems[i] = NULL;
+
+    return zset_mems;
 }
 
 // see api.h
 int zset_remrangebyrank(zset_t* z, int start, int stop)
 {
-    int number;
+    int rc;
+
     if(!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+
     redisReply *reply = redisCommand(z->context, "ZREMRANGEBYRANK %s %d %d", z->name,start, stop);
 
-    if(reply == NULL) {
-        fprintf(stderr,"ERROR zset_remrangebyrank: %s\n", z->context->errstr);
+    if(reply == NULL)
+    {
+        printf("ERROR zset_remrangebyrank: %s\n", reply->str);
         freeReplyObject(reply);
 
         z->context = NULL;
 
         return -1;
     }
-    number = reply->integer;
-    return number;
+
+    rc = reply->integer;
+
+    return rc;
 }
 
 /* Young-Joo */
-int zset_card(zset_t* z) {
+int zset_card(zset_t* z)
+{
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
+
     redisReply* reply = redisCommand(z->context, "ZCARD %s", z->name);
-    if (reply == NULL) {
+
+    if (reply == NULL)
+    {
         printf("ERROR zset_card: %s\n", reply->str);
         freeReplyObject(reply);
+
         z->context = NULL;
+
         return 0;
     }
+
     printf("ZCARD: %lld\n", reply->integer);
     freeReplyObject(reply);
     return 1;
 }
 
 /* Vanessa */
-int zset_score(zset_t* z, char* memname) {
+int zset_score(zset_t* z, char* memname)
+{
     int score;
+
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
+
     redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
-    if (reply->str == NULL) {
+
+    if (reply->str == NULL)
+    {
         printf("ERROR zset_score: %s\n", reply->str);
         freeReplyObject(reply);
+
         z->context = NULL;
+
         return -1;
     }
+
     score = atoi(reply->str);
     freeReplyObject(reply);
     return score;
 }
 
-int zset_rank(zset_t* z, char* memname) {
+int zset_rank(zset_t* z, char* memname)
+{
     int rank;
+
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
+
     redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, memname);
-    if (reply == NULL) {
+
+    if (reply == NULL)
+    {
         printf("ERROR zset_rank: %s\n", reply->str);
         freeReplyObject(reply);
+
         z->context = NULL;
+
         return -1;
     }
+
     rank = reply->integer;
     freeReplyObject(reply);
     return rank;
