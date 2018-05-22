@@ -13,7 +13,7 @@ Test(fruits, new)
 	cr_assert_not_null(z_sweet, "zset_new() failed"); 
 	
 	cr_assert_eq(z_sweet->name, "sweet", 
-			"zset_new didn't set the name");  
+		"zset_new didn't set the name");  
 }
 
 Test(fruits, add)
@@ -30,9 +30,11 @@ Test(fruits, incr)
 {
 	zset_t *z_sweet;
 	z_sweet = zset_new("sweet");
-	int yes; 
+	int yes, yay; 
 	yes = zset_incr(z_sweet, "kiwi", 50); 
-	cr_assert_eq(yes, 1, "failed to increment");
+	cr_assert_eq(yes, 1, "failed to increment kiwi");
+	yay = zset_incr(z_sweet, "mango", 20); 
+	cr_assert_eq(yay, 1, "failed to increment mango"); 
 }
 
 Test(fruits, decr)
@@ -53,3 +55,5 @@ Test(fruits, card)
 	yes = zset_card(z_sweet); 
 	cr_assert_eq(yes, 1, "failed to count"); 
 }
+
+

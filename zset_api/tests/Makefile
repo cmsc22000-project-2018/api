@@ -8,7 +8,7 @@ RM = rm -f
 BIN = test_zset
 LDLIBS = -lcriterion -lhiredis
 
-SRCS = main.c test_fruits.c  ../api.c
+SRCS = main.c test_fruits.c test_veggies.c  ../api.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean

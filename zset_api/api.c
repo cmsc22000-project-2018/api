@@ -183,7 +183,7 @@ int zset_decr(zset_t* z, char* key, int decrby)
         return 0;
     }
 
-    printf("ZDECRBY(%s): %s\n", key, reply->str);
+    printf("ZDECRBY (%s): %s\n", key, reply->str);
     return 1;
 }
 
@@ -266,7 +266,7 @@ int zset_card(zset_t* z)
         return 0;
     }
 
-    printf("ZCARD: %lld\n", reply->integer);
+    printf("ZCARD (%s): %lld\n", z->name, reply->integer);
     freeReplyObject(reply);
     return 1;
 }
