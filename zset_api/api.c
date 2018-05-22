@@ -161,7 +161,7 @@ int zset_incr(zset_t* z, char* key, int incrby)
         return 0;
     }
 
-    printf("ZINCRBY: %s\n", reply->str);
+    printf("ZINCRBY (%s): %s\n", key, reply->str);
     return 1;
 }
 
@@ -183,7 +183,7 @@ int zset_decr(zset_t* z, char* key, int decrby)
         return 0;
     }
 
-    printf("ZDECRBY: %s\n", reply->str);
+    printf("ZDECRBY(%s): %s\n", key, reply->str);
     return 1;
 }
 

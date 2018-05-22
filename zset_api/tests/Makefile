@@ -1,11 +1,14 @@
-C = gcc 
+# Makefile based on template at https://gist.github.com/xuhdev/1873316
+# Makefile based on lab5
+
+CC = gcc 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
-BIN = example
-LDLIBS = -lhiredis
+BIN = test_zset
+LDLIBS = -lcriterion -lhiredis
 
-SRCS = api.c main.c
+SRCS = main.c test_fruits.c  ../api.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean
