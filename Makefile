@@ -9,7 +9,7 @@ STATIC_LIB = libgeometry.a
 LDLIBS = -lhiredis
 LIBS = $(STATIC_LIB)
 
-SRCS = /src/zset/zset.c
+SRCS = src/zset/zset.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
