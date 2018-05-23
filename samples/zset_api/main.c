@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "api.h"
+#include "zset.h"
+
 /* tests the functionality of the zset api */
 
 int main() {
