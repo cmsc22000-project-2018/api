@@ -42,6 +42,11 @@ $ sudo ldconfig
 
 In another window, enter the redis-4.0.9 directory and establish a connection to Redis with the following command:
 ` $ src/redis-server `
+If successful, the last line of the terminal should display something along the lines of: 
+```
+417:M 22 May 21:36:20.022 * DB loaded from disk: 0.002 seconds
+417:M 22 May 21:36:20.022 * Ready to accept connections
+```
 
 Run the following commands:  
 ```
@@ -90,6 +95,39 @@ Return the rank (numerical position in the sorted set if sorted in ascending ord
 ` int zset_rank(zset_t* z, char* memname);`<br>
 Return the elements within the numerical range between two ranks, when the sorted set is ranked from highest to lowest score:<br>
 ` char** zset_revrange(zset_t* z, int start, int stop);`<br>
+
+## Sample
+In another window, open a connection to Redis (see "Testing Out the API" for instructions on how to do this).
+The following code:
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "api.h"
+
+int main() {
+    int main() {
+    zset_t *test_zset = zset_new("fruits");
+    printf("zset_add bananas => %d\n", zset_add(test_zset, "bananas", 15));
+    printf("zset_add apples => %d\n", zset_add(test_zset, "apples", 8));
+    zset_incr(test_zset, "bananas",3);
+    zset_decr(test_zset, "bananas", 2);
+    printf("zset_score => %s\n", zset_score(test_zset, "bananas"));
+    printf("zset_rank apples => %d\n", zset_rank(test_zset, "apples"));
+    printf("zset_rank bananas => %d\n", zset_rank(test_zset, "bananas"));
+    return 0;
+}
+```
+Should produce the following output:
+```
+zset_add bananas => 1
+zset_add apples => 1
+ZINCRBY: 18
+ZDECRBY: 16
+zset_score => 16
+zset_rank apples => 0
+zset_rank bananas => 1
+``` 
 
 # Notes
 * Any questions? Let us know in the Facebook/Slack groups!
