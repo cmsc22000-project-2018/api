@@ -1,4 +1,4 @@
-__ PLEASE READ THIS __
+**__ PLEASE READ THIS __**
 
 In order for the example API to run correctly, you will need to
 install Redis and Hiredis. We'll guide you through this. We will
@@ -7,7 +7,16 @@ system dependency errors. For this reason, everyone should run
 their tests on a CS Virtual Machine. For more information about
 CS VM's, please refer to: https://howto.cs.uchicago.edu/vm:index
 
-# Installing Redis
+# API Tutorial
+
+## Setup
+Clone our repository into a new directory using:
+
+```
+$ git clone https://github.com/cmsc22000-project-2018/api.git
+```
+
+### Installing Redis
 
 Run the following commands:
 ```
@@ -18,7 +27,7 @@ $ make
 $ sudo make install  
 ```
 
-# Installing Hiredis
+### Installing Hiredis
 
 Run the following commands:
 ```
@@ -29,7 +38,10 @@ $ sudo make install
 $ sudo ldconfig  
 ```
 
-# Testing out the API
+## Testing out the API
+
+In another window, enter the redis-4.0.9 directory and establish a connection to Redis with the following command:
+` $ src/redis-server `
 
 Run the following commands:  
 ```
@@ -37,10 +49,50 @@ $ make
 $ ./example  
 ```
 
+## Sorted Set and API Functionality
+
+This is an example of an API that works with sorted sets, a standard data type provided by Redis. Sorted sets in Redis consist of pairs of strings and integer scores. Score values may be repeated, but member names (strings) cannot. The full list of sorted set commands in Redis can be found here: https://redis.io/commands#sorted_set
+
+### Basics
+
+Via our API, the user can create a sorted set using
+` int zset_new(zset_t** z, char *name); `<br>
+or initialize an existing sorted set with `int zset_init(zset_t *zset, char *name)`
+
+To free your set, use `int zset_free(zset_t *zset); `
+
+All of the above functions return 0 on success, and 1 if an error occurs.
+
+### Setter Functions
+Add or remove members of the sorted set using:
+``` 
+int zset_add(zset_t *z, char *key, int score); 
+int zset_rem(zset_t *z, char *key); 
+```
+
+Removes all elements in the sorted set stored at key with rank between start and stop. <br> 
+` int zset_remrangebyrank(zset_t* z, int start, int stop);`
+
+Change the values of sorted set members using:
+``` 
+int zset_incr(zset_t* zset, char* memname, int incrby); 
+int zset_decr(zset_t* zset, char* memname, int decrby); 
+```
+
+All of the above functions return 0 on success, and 1 if an error occurs.
+
+### Getter Functions
+Return the cardinality (number of elements in the sorted set) using 
+` int zset_card(zset_t* z); `
+Return the score of an individual member in the sorted set using 
+` int zset_score(zset_t* z, char* memname);`
+Return the rank (numerical position in the sorted set if sorted in ascending order, starting at 0) of an individual member: 
+` int zset_rank(zset_t* z, char* memname);`
+Return the elements within the numerical range between two ranks, when the sorted set is ranked from highest to lowest score:
+` char** zset_revrange(zset_t* z, int start, int stop);`
+
+
 # Notes
-* zset_add & zset_rem will print "(null)", but rest assured that they went
-through to the Redis server.
-* If it doesn't compile, let the API team know in the Facebook/Slack groups.
 * Any questions? Let us know in the Facebook/Slack groups!
 
 - API Team
