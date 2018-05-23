@@ -49,7 +49,7 @@ $ make
 $ ./example  
 ```
 
-## Sorted Set and API Functionality
+## Sorted Set API Functionality
 
 This is an example of an API that works with sorted sets, a standard data type provided by Redis. Sorted sets in Redis consist of pairs of strings and integer scores. Score values may be repeated, but member names (strings) cannot. The full list of sorted set commands in Redis can be found here: https://redis.io/commands#sorted_set
 
@@ -82,17 +82,14 @@ int zset_decr(zset_t* zset, char* memname, int decrby);
 All of the above functions return 0 on success, and 1 if an error occurs.
 
 ### Getter Functions
-Return the cardinality (number of elements in the sorted set) using 
-` int zset_card(zset_t* z); `
-Return the score of an individual member in the sorted set using 
-` int zset_score(zset_t* z, char* memname);`
-Return the rank (numerical position in the sorted set if sorted in ascending order, starting at 0) of an individual member: 
-` int zset_rank(zset_t* z, char* memname);`
-Return the elements within the numerical range between two ranks, when the sorted set is ranked from highest to lowest score:
-` char** zset_revrange(zset_t* z, int start, int stop);`
-
+Return the cardinality (number of elements in the sorted set) using <br>
+` int zset_card(zset_t* z); ` <br>
+Return the score of an individual member in the sorted set using <br>
+` int zset_score(zset_t* z, char* memname);` <br>
+Return the rank (numerical position in the sorted set if sorted in ascending order, starting at 0) of an individual member: <br>
+` int zset_rank(zset_t* z, char* memname);`<br>
+Return the elements within the numerical range between two ranks, when the sorted set is ranked from highest to lowest score:<br>
+` char** zset_revrange(zset_t* z, int start, int stop);`<br>
 
 # Notes
 * Any questions? Let us know in the Facebook/Slack groups!
-
-- API Team
