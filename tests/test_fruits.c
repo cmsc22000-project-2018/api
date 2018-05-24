@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../api.h"  
+#include "../include/api/zset.h"  
 
 Test(fruits, new)
 {
