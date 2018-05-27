@@ -20,7 +20,7 @@ zset_t* zset_new(char *name)
         return NULL;
     }
 
-    rc = zset_init(zset, name);
+    rc = zset_init(z, name);
 
     if (rc != 0)
     {
