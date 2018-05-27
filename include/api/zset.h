@@ -1,10 +1,10 @@
 /*
  * This API uses Hiredis to faciliate communcation between an
- * application and a Redis server.
+ * application that uses Redis' native sorted set and a Redis server.
  */
 
-#ifndef INCLUDE_ZSET_H_
-#define INCLUDE_ZSET_H_
+#ifndef INCLUDE_zset_H_
+#define INCLUDE_zset_H_
 
 #include "common.h"
 

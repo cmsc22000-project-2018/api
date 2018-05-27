@@ -6,7 +6,6 @@
 #include "zset.h"
 
 /* Alan */
-
 /*
 * connected - check if an existing session is in place
 *
