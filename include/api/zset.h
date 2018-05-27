@@ -3,10 +3,10 @@
  * application and a Redis server.
  */
 
-#ifndef INCLUDE_API_H_
-#define INCLUDE_API_H_
+#ifndef INCLUDE_ZSET_H_
+#define INCLUDE_ZSET_H_
 
-#include "../../lib/hiredis-0.13.3/hiredis.h"
+#include "common.h"
 
 typedef struct
 {
@@ -95,7 +95,7 @@ int zset_decr(zset_t* zset, char* memname, int decrby);
  *  Returns:
  *      the number of members removed
  */
-int zset_rem(zset_t *z, char *name); 
+int zset_rem(zset_t *z, char *name);
 
 /* zset_card - returns the cardinality of a given set
  *
@@ -117,7 +117,7 @@ int zset_card(zset_t* z);
 
 int zset_score(zset_t* z, char* memname);
 
-/* zset_rank - returns rank of a member of a set sorted in ascending order 
+/* zset_rank - returns rank of a member of a set sorted in ascending order
  *
  *  Parameters:
  *      zset_t *zset - pointer to zset
@@ -140,7 +140,7 @@ char** zset_revrange(zset_t* z, int start, int stop);
 /* zset_remrangebyrank - removes ranked members in set range
  *
  *  Parameters:
- *      zset_t *zset - pointer to zset 
+ *      zset_t *zset - pointer to zset
  *      int start, stop - values of start and end of range
  *  Returns:
  *      0 for failure, 1 for success
