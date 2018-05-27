@@ -54,7 +54,7 @@ zset_t* zset_new(char *name);
  *  Returns:
  *      0 for success, 1 for error
  */
-int zset_init(zset_t *zset, char *name);
+int zset_init(zset_t *z, char *name);
 
 /* zset_free - frees zset struct
  *
@@ -63,7 +63,7 @@ int zset_init(zset_t *zset, char *name);
  *  Returns:
  *      0 for success, 1 for error
  */
-int zset_free(zset_t *zset);
+int zset_free(zset_t *z);
 
 /* zset_incr - increments zset struct by some amt
  *
@@ -74,7 +74,7 @@ int zset_free(zset_t *zset);
  *  Returns:
  *      new value of member
  */
-int zset_incr(zset_t* zset, char* memname, int incrby);
+int zset_incr(zset_t* z, char* key, int incrby);
 
 /* zset_decr - decrements zset struct by some amt
  *
@@ -85,7 +85,7 @@ int zset_incr(zset_t* zset, char* memname, int incrby);
  *  Returns:
  *      new value of member
  */
-int zset_decr(zset_t* zset, char* memname, int decrby);
+int zset_decr(zset_t* z, char* key, int decrby);
 
 /* zset_rem - removes a member of a zset
  *
@@ -95,7 +95,7 @@ int zset_decr(zset_t* zset, char* memname, int decrby);
  *  Returns:
  *      the number of members removed
  */
-int zset_rem(zset_t *z, char *name);
+int zset_rem(zset_t *z, char *key);
 
 /* zset_card - returns the cardinality of a given set
  *
@@ -115,7 +115,7 @@ int zset_card(zset_t* z);
  *      score of member
 */
 
-int zset_score(zset_t* z, char* memname);
+int zset_score(zset_t* z, char* key);
 
 /* zset_rank - returns rank of a member of a set sorted in ascending order
  *
@@ -125,7 +125,7 @@ int zset_score(zset_t* z, char* memname);
  *  Returns:
  *      the rank of the given member
  */
-int zset_rank(zset_t* z, char* memname);
+int zset_rank(zset_t* z, char* key);
 
 /* zset_revrange - returns ranked members in set range
  *

@@ -24,18 +24,18 @@ int connected(zset_t *z)
 // see zset.h
 zset_t* zset_new(char *name)
 {
-    zset_t *zset;
+    zset_t *z;
     int rc;
 
-    zset = malloc(sizeof(zset_t));
+    z = malloc(sizeof(zset_t));
 
-    if (zset == NULL)
+    if (z == NULL)
     {
         printf("zset_new: could not allocate memory\n");
         return NULL;
     }
 
-    rc = zset_init(zset, name);
+    rc = zset_init(z, name);
 
     if (rc != 0)
     {
@@ -43,27 +43,27 @@ zset_t* zset_new(char *name)
         return NULL;
     }
 
-    return zset;
+    return z;
 }
 
 // see zset.h
-int zset_init(zset_t *zset, char *name)
+int zset_init(zset_t *z, char *name)
 {
-    assert(zset != NULL);
+    assert(z != NULL);
 
-    zset->name = name;
-    zset->context = NULL;
+    z->name = name;
+    z->context = NULL;
 
     return 0;
 }
 
 // see zset.h
-int zset_free(zset_t *zset)
+int zset_free(zset_t *z)
 {
-    assert(zset != NULL);
+    assert(z != NULL);
 
-    redisFree(zset->context);
-    free(zset);
+    redisFree(z->context);
+    free(z);
 
     return 0;
 }
@@ -94,14 +94,14 @@ int zset_add(zset_t *z, char *key, int score)
 }
 
 // see api.h
-int zset_rem(zset_t *z, char *name)
+int zset_rem(zset_t *z, char *key)
 {
     int rc;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
 
-    redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, name);
+    redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, key);
 
     if (reply == NULL)
     {
@@ -247,14 +247,14 @@ int zset_card(zset_t* z)
 }
 
 /* Vanessa */
-int zset_score(zset_t* z, char* memname)
+int zset_score(zset_t* z, char* key)
 {
     int score;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
 
-    redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
+    redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, key);
 
     if (reply->str == NULL)
     {
@@ -271,14 +271,14 @@ int zset_score(zset_t* z, char* memname)
     return score;
 }
 
-int zset_rank(zset_t* z, char* memname)
+int zset_rank(zset_t* z, char* key)
 {
     int rank;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
 
-    redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, memname);
+    redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, key);
 
     if (reply == NULL)
     {

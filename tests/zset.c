@@ -9,12 +9,12 @@
 // see zset_api.h
 zset_t* zset_new(char *name)
 {
-    zset_t *zset;
+    zset_t *z;
     int rc;
 
-    zset = malloc(sizeof(zset_t));
+    z = malloc(sizeof(zset_t));
 
-    if (zset == NULL)
+    if (z == NULL)
     {
         printf("zset_new: could not allocate memory\n");
         return NULL;
@@ -28,7 +28,7 @@ zset_t* zset_new(char *name)
         return NULL;
     }
 
-    return zset;
+    return z;
 }
 
 // see zset_api.h
