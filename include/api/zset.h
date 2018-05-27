@@ -6,7 +6,7 @@
 #ifndef INCLUDE_API_H_
 #define INCLUDE_API_H_
 
-#include <hiredis/hiredis.h>
+#include "../../lib/hiredis-0.13.3/hiredis.h"
 
 typedef struct
 {
