@@ -1,7 +1,7 @@
 #ifndef INCLUDE_COMMON_H_
 #define INCLUDE_COMMON_H_
 
-#include "../../lib/hiredis-0.13.3/hiredis.h"
+#include <hiredis/hiredis.h>
 
 /* common.h
  *
