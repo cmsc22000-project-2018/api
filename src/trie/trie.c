@@ -65,15 +65,53 @@ int trie_free(trie_t *trie)
 
     return 0;
 }
-/*
+
 // see trie.h
-int trie_insert(trie_t *trie, char *value)
+int trie_insert(trie_t *trie, char *word)
 {
     int rc;
 
     if (!connected(trie))
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
 
-    redisReply *reply = redisCommand(trie->context, "TRIE.INSERT")
+    redisReply *reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
+
+    if (reply == NULL)
+    {
+        printf("ERROR trie-insert: %s\n", reply->str);
+        freeReplyObject(reply);
+
+        trie->context = NULL;
+
+        return 1;
+    }
+
+    rc = reply->integer;
+    freeReplyObject(reply);
+    return rc;
 }
-*/
+
+// see trie.h
+int trie_contains(trie_t *trie, char *word)
+{
+    int rc;
+
+    if (!connected(trie))
+        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+
+    redisReply *reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
+
+    if (reply == NULL)
+    {
+        printf("ERROR trie-insert: %s\n", reply->str);
+        freeReplyObject(reply);
+
+        trie->context = NULL;
+
+        return 1;
+    }
+
+    rc = reply->integer;
+    freeReplyObject(reply);
+    return rc;
+}
