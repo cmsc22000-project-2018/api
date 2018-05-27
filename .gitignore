@@ -1,0 +1,5 @@
+*.d
+*.o
+*.a
+samples/zset_api/zset_example
+tests/test_zset
