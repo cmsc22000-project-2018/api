@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/api/common.h"
+#include "common.h"
 
 // see /include/api/common.h
 redisContext* apiConnect(const char *ip, int port)
