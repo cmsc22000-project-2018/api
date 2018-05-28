@@ -4,3 +4,4 @@
 [submodule "lib/redis-tries"]
 	path = lib/redis-tries
 	url = https://github.com/cmsc22000-project-2018/redis-tries.git
+	ignore = dirty
