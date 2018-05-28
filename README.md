@@ -31,8 +31,7 @@ $ sudo make install
 
 Run the following commands:
 ```
-$ git clone https://github.com/redis/hiredis.git  
-$ cd hiredis  
+$ cd lib/hiredis-0.13.3  
 $ make  
 $ sudo make install  
 $ sudo ldconfig  
@@ -128,6 +127,48 @@ zset_score => 16
 zset_rank apples => 0
 zset_rank bananas => 1
 ``` 
+## List of all functions implemented 
+Here is a list of all the functions you can experiment with for your reference:
+
+zset_add - adds an element to a sorted set
+int zset_add(zset_t *z, char *key, int score);
+
+zset_rem - removes an element from a sorted set
+int zset_rem(zset_t *z, char *key);
+
+zset_new - returns pointer to a new zset_t struct
+zset_t* zset_new(char *name);
+
+zset_init - initializes fields in a zset struct
+int zset_init(zset_t *zset, char *name);
+
+zset_free - frees zset struct
+int zset_free(zset_t *zset);
+
+zset_incr - increments zset struct by some amt
+int zset_incr(zset_t* zset, char* memname, int incrby);
+
+zset_decr - decrements zset struct by some amt
+int zset_decr(zset_t* zset, char* memname, int decrby);
+
+zset_rem - removes a member of a zset
+int zset_rem(zset_t *z, char *name); 
+
+zset_card - returns the cardinality of a given set
+int zset_card(zset_t* z);
+
+zset_score - returns zset score
+int zset_score(zset_t* z, char* memname);
+
+zset_rank - returns rank of a member of a set sorted in ascending order 
+int zset_rank(zset_t* z, char* memname);
+
+zset_revrange - returns ranked members in set range
+char** zset_revrange(zset_t* z, int start, int stop);
+
+zset_remrangebyrank - removes ranked members in set range
+int zset_remrangebyrank(zset_t* z, int start, int stop);
+
 
 # Notes
 * Any questions? Let us know in the Facebook/Slack groups!
