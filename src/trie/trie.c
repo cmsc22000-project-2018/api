@@ -3,8 +3,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include "common.h"
 #include "trie.h"
+
 /*
 * connected - check if an existing session is in place
 *
@@ -71,11 +71,25 @@ int trie_free(trie_t *trie)
 int trie_insert(trie_t *trie, char *word)
 {
     int rc;
+	redisReply *reply;
 
     if (!connected(trie))
+	{
+		// establish connection to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
+		// load trie module
+		reply = redisCommand(trie->context, "MODULE LOAD ../../lib/redis-tries/module/trie.so");
 
-    redisReply *reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
+		if (reply == NULL)
+		{
+			printf("ERROR trie-insert: %s\n", reply->str);
+			freeReplyObject(reply);
+			trie->context = NULL;
+			return 1;
+		}
+		printf("LOADING TRIE-MODULE: %s\n", reply->str);
+	}
+    reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
 
     if (reply == NULL)
     {
@@ -86,6 +100,8 @@ int trie_insert(trie_t *trie, char *word)
 
         return 1;
     }
+
+	printf("TRIE_INSERT: %s\n", reply->str);
 
     rc = reply->integer;
     freeReplyObject(reply);
@@ -96,11 +112,26 @@ int trie_insert(trie_t *trie, char *word)
 int trie_contains(trie_t *trie, char *word)
 {
     int rc;
+    redisReply *reply;
 
     if (!connected(trie))
+    {
+        // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        // load trie module
+        reply = redisCommand(trie->context, "MODULE LOAD ../../lib/redis-tries/module/trie.so");
 
-    redisReply *reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
+        if (reply == NULL)
+		{
+			printf("ERROR trie-insert: %s\n", reply->str);
+			freeReplyObject(reply);
+			trie->context = NULL;
+			return -1;
+		}
+		printf("LOADING TRIE-MODULE: %s\n", reply->str);
+	}
+
+    reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
 
     if (reply == NULL)
     {
@@ -109,10 +140,22 @@ int trie_contains(trie_t *trie, char *word)
 
         trie->context = NULL;
 
-        return 1;
+        return -1;
     }
 
-    rc = reply->integer;
+    char *ret_str = reply->str;
+
+    if (!strcmp(ret_str, "The trie contains the word."))
+        rc = 0;
+    else if (!strcmp(ret_str, "The trie does not contain \
+                the word."))
+        rc = 1;
+    else if (!strcmp(ret_str, "The trie contains it as a \
+                prefix but not as a word."))
+        rc = 2;
+    else
+        rc = -1;
+
     freeReplyObject(reply);
     return rc;
 }
