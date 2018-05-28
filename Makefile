@@ -5,7 +5,7 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/api/
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
-STATIC_LIB = libgeometry.a
+STATIC_LIB = libhiredis.a
 LDLIBS = -lhiredis
 LIBS = $(STATIC_LIB)
 

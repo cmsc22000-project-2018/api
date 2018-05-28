@@ -5,7 +5,6 @@
 
 #include "zset.h"
 
-/* Alan */
 // see zset_api.h
 zset_t* zset_new(char *name)
 {
@@ -51,32 +50,6 @@ int zset_free(zset_t *z)
     free(z);
 
     return 0;
-}
-/*
-* connect - establishes a connection to a Redis server
-*
-* Parameters:
-*  const char *ip - hostname
-*  int port - port
-* Returns:
-*  redisContect *c - context for redis session, NULL otherwise
-*/
-redisContext* apiConnect(const char *ip, int port)
-{
-    redisContext *c = redisConnect(ip, port);
-    if (c == NULL || c->err)
-    {
-        if (c)
-        {
-            fprintf(stderr, "err: %s\n", c->errstr);
-        }
-        else
-        {
-            fprintf(stderr, "err connect: cannot allocate redis context\n");
-        }
-        return NULL;
-    }
-    return c;
 }
 
 /*
@@ -144,7 +117,6 @@ int zset_rem(zset_t *z, char *key)
     return rc;
 }
 
-/* Neha */
 // see api.h
 int zset_incr(zset_t* z, char* key, int incrby)
 {
@@ -249,7 +221,6 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
     return rc;
 }
 
-/* Young-Joo */
 int zset_card(zset_t* z)
 {
     if (!connected(z))
@@ -272,7 +243,6 @@ int zset_card(zset_t* z)
     return 1;
 }
 
-/* Vanessa */
 int zset_score(zset_t* z, char* key)
 {
     int score;

@@ -48,7 +48,7 @@
  *      trie_t *trie - pointer to opaque trie data structure
  *      char *word - string that will be inserted into the trie
  * Returns:
- *      0 for success, 1 for error
+ *      0 for success, -1 for error
  */
 int trie_insert(trie_t *trie, char *word);
 
@@ -58,6 +58,7 @@ int trie_insert(trie_t *trie, char *word);
  *      trie_t *trie - pointer to opaque trie dadta structure
  *      char *word - string to check within a trie
  * Returns:
+ *	   -1 - error
  *      0 - trie contains the word
  *      1 - trie does not contain the word
  *      2 - trie contains it as a prefix but not a word
