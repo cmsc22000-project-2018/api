@@ -1,6 +1,5 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 # Makefile based on lab5
-#fixed errors 
 
 CC = gcc 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/

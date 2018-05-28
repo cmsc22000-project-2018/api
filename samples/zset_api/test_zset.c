@@ -28,9 +28,9 @@ Test(zset, incr)
     zset_add(test_zset, "bananas", 15);
     zset_add(test_zset, "apples", 8);
     zset_add(test_zset, "oranges", 6);
-    cr_assert_eq(zset_incr(test_zset, "bananas",3),1,"zset_incr did not increment the score");
-    cr_assert_eq(zset_incr(test_zset, "apples",16),1,"zset_incr did not increment the score");
-    cr_assert_eq(zset_incr(test_zset, "oranges",0),1,"zset_incr did not increment the score");
+    cr_assert_eq(zset_incr(test_zset, "bananas",3),18,"zset_incr did not increment the score");
+    cr_assert_eq(zset_incr(test_zset, "apples",16),24,"zset_incr did not increment the score");
+    cr_assert_eq(zset_incr(test_zset, "oranges",0),6,"zset_incr did not increment the score");
     
 }
 
@@ -40,9 +40,9 @@ Test(zset, decr)
     zset_add(test_zset, "bananas", 15);
     zset_add(test_zset, "apples", 8);
     zset_add(test_zset, "oranges", 6);
-    cr_assert_eq(zset_decr(test_zset, "bananas",2),1,"zset_incr did not increment the score");
-    cr_assert_eq(zset_decr(test_zset, "apples",14),1,"zset_incr did not increment the score");
-    cr_assert_eq(zset_decr(test_zset, "oranges",0),1,"zset_incr did not increment the score");
+    cr_assert_eq(zset_decr(test_zset, "bananas",2),13,"zset_incr did not increment the score");
+    cr_assert_eq(zset_decr(test_zset, "apples",14),-6,"zset_incr did not increment the score");
+    cr_assert_eq(zset_decr(test_zset, "oranges",0),6,"zset_incr did not increment the score");
 }
 
 Test(zset, score)
