@@ -57,6 +57,48 @@ $ ./example
 
 This is an example of an API that works with sorted sets, a standard data type provided by Redis. Sorted sets in Redis consist of pairs of strings and integer scores. Score values may be repeated, but member names (strings) cannot. The full list of sorted set commands in Redis can be found here: https://redis.io/commands#sorted_set
 
+## List of all functions implemented 
+Here is a list of all the functions you can experiment with for your reference:
+
+`zset_add` - adds an element with score `score` to a sorted set `z` at key `key`
+`int zset_add(zset_t *z, char *key, int score)`;
+
+zset_rem - removes an element from a sorted set `z` at key `key`
+`int zset_rem(zset_t *z, char *key);`
+
+zset_new - returns pointer to a new sorted set with name `name`
+`zset_t* zset_new(char *name);`
+
+zset_init - initializes fields in a sorted set `zset` to name `name`
+`int zset_init(zset_t *zset, char *name);`
+
+zset_free - frees sorted set `zset`
+`int zset_free(zset_t *zset);`
+
+zset_incr - increments sorted set `zset` at `key` by `incrby`
+`int zset_incr(zset_t* zset, char* key, int incrby);`
+
+zset_decr - decrements sorted set `zset` at `key` by `decrby`
+`int zset_decr(zset_t* zset, char* key, int decrby);`
+
+zset_rem - removes a member of a sorted set `z` at key `name`
+`int zset_rem(zset_t *z, char *name); `
+
+zset_card - returns the cardinality of a given sorted set `z`
+`int zset_card(zset_t* z);`
+
+zset_score - returns score of sorted set `z` at key `memname`
+`int zset_score(zset_t* z, char* memname);`
+
+zset_rank - returns rank of a member of a sorted set `z` at key `memname` sorted in ascending order 
+`int zset_rank(zset_t* z, char* memname);`
+
+zset_revrange - returns ranked members in sorted set `z` set range from `start` to `stop`
+`char** zset_revrange(zset_t* z, int start, int stop);`
+
+zset_remrangebyrank - removes ranked members in sorted set `z` in set range from `start` to 1stop`
+`int zset_remrangebyrank(zset_t* z, int start, int stop);`
+
 ### Basics
 
 Via our API, the user can create a sorted set using
@@ -127,48 +169,3 @@ zset_score => 16
 zset_rank apples => 0
 zset_rank bananas => 1
 ``` 
-## List of all functions implemented 
-Here is a list of all the functions you can experiment with for your reference:
-
-zset_add - adds an element to a sorted set
-int zset_add(zset_t *z, char *key, int score);
-
-zset_rem - removes an element from a sorted set
-int zset_rem(zset_t *z, char *key);
-
-zset_new - returns pointer to a new zset_t struct
-zset_t* zset_new(char *name);
-
-zset_init - initializes fields in a zset struct
-int zset_init(zset_t *zset, char *name);
-
-zset_free - frees zset struct
-int zset_free(zset_t *zset);
-
-zset_incr - increments zset struct by some amt
-int zset_incr(zset_t* zset, char* memname, int incrby);
-
-zset_decr - decrements zset struct by some amt
-int zset_decr(zset_t* zset, char* memname, int decrby);
-
-zset_rem - removes a member of a zset
-int zset_rem(zset_t *z, char *name); 
-
-zset_card - returns the cardinality of a given set
-int zset_card(zset_t* z);
-
-zset_score - returns zset score
-int zset_score(zset_t* z, char* memname);
-
-zset_rank - returns rank of a member of a set sorted in ascending order 
-int zset_rank(zset_t* z, char* memname);
-
-zset_revrange - returns ranked members in set range
-char** zset_revrange(zset_t* z, int start, int stop);
-
-zset_remrangebyrank - removes ranked members in set range
-int zset_remrangebyrank(zset_t* z, int start, int stop);
-
-
-# Notes
-* Any questions? Let us know in the Facebook/Slack groups!
