@@ -3,10 +3,16 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../include/api/zset.h"
+#include "zset.h"
 
-/* Alan */
-// see zset_api.h
+int connected(zset_t *z)
+{
+    if (z)
+        return z->context != NULL;
+    return 0;
+}
+
+// see zset.h
 zset_t* zset_new(char *name)
 {
     zset_t *z;
@@ -31,65 +37,25 @@ zset_t* zset_new(char *name)
     return z;
 }
 
-// see zset_api.h
-int zset_init(zset_t *zset, char *name)
+// see zset.h
+int zset_init(zset_t *z, char *name)
 {
-    assert(zset != NULL);
+    assert(z != NULL);
 
-    zset->name = name;
-    zset->context = NULL;
+    z->name = name;
+    z->context = NULL;
 
     return 0;
 }
-// see zset_api.h
-int zset_free(zset_t *zset)
-{
-    assert(zset != NULL);
 
-    redisFree(zset->context);
-    free(zset);
-
-    return 0;
-}
-/*
-* connect - establishes a connection to a Redis server
-*
-* Parameters:
-*  const char *ip - hostname
-*  int port - port
-* Returns:
-*  redisContect *c - context for redis session, NULL otherwise
-*/
-redisContext* apiConnect(const char *ip, int port)
+// see zset.h
+int zset_free(zset_t *z)
 {
-    redisContext *c = redisConnect(ip, port);
-    if (c == NULL || c->err)
-    {
-        if (c)
-        {
-            fprintf(stderr, "err: %s\n", c->errstr);
-        }
-        else
-        {
-            fprintf(stderr, "err connect: cannot allocate redis context\n");
-        }
-        return NULL;
-    }
-    return c;
-}
+    assert(z != NULL);
 
-/*
-* connected - check if an existing session is in place
-*
-* paramaters
-*  session_t *s - pointer to session
-* returns
-*  1 if connected, 0 if not
-*/
-int connected(zset_t *z)
-{
-    if (z)
-        return z->context != NULL;
+    redisFree(z->context);
+    free(z);
+
     return 0;
 }
 
@@ -119,14 +85,14 @@ int zset_add(zset_t *z, char *key, int score)
 }
 
 // see api.h
-int zset_rem(zset_t *z, char *name)
+int zset_rem(zset_t *z, char *key)
 {
     int rc;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379); //localhost
 
-    redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, name);
+    redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, key);
 
     if (reply == NULL)
     {
@@ -161,8 +127,7 @@ int zset_incr(zset_t* z, char* key, int incrby)
         return 0;
     }
 
-    printf("ZINCRBY (%s): %s\n", key, reply->str);
-    return 1;
+    return atoi(reply->str);
 }
 
 // see api.h
@@ -183,10 +148,8 @@ int zset_decr(zset_t* z, char* key, int decrby)
         return 0;
     }
 
-    printf("ZDECRBY (%s): %s\n", key, reply->str);
-    return 1;
+    return atoi(reply->str);
 }
-
 
 // see api.h
 char** zset_revrange(zset_t* z, int start, int stop)
@@ -249,7 +212,6 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
     return rc;
 }
 
-
 /* Young-Joo */
 int zset_card(zset_t* z)
 {
@@ -274,14 +236,14 @@ int zset_card(zset_t* z)
 }
 
 /* Vanessa */
-int zset_score(zset_t* z, char* memname)
+int zset_score(zset_t* z, char* key)
 {
     int score;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
 
-    redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, memname);
+    redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, key);
 
     if (reply->str == NULL)
     {
@@ -298,14 +260,14 @@ int zset_score(zset_t* z, char* memname)
     return score;
 }
 
-int zset_rank(zset_t* z, char* memname)
+int zset_rank(zset_t* z, char* key)
 {
     int rank;
 
     if (!connected(z))
         z->context = apiConnect("127.0.0.1", 6379);
 
-    redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, memname);
+    redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, key);
 
     if (reply == NULL)
     {
@@ -321,4 +283,3 @@ int zset_rank(zset_t* z, char* memname)
     freeReplyObject(reply);
     return rank;
 }
-  
