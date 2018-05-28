@@ -3,4 +3,5 @@
 *.a
 *.rdb
 samples/zset_api/zset_example
+samples/trie_api/trie_example
 tests/test_zset
