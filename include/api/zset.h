@@ -3,8 +3,8 @@
  * application that uses Redis' native sorted set and a Redis server.
  */
 
-#ifndef INCLUDE_zset_H_
-#define INCLUDE_zset_H_
+#ifndef INCLUDE_ZSET_H_
+#define INCLUDE_ZSET_H_
 
 #include "common.h"
 

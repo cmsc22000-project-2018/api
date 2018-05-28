@@ -2,10 +2,10 @@ C = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../../include/api/
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
-BIN = zset_example
+BIN = trie_example
 LDLIBS = -lhiredis
 
-SRCS = zset.c main.c common.c
+SRCS = trie.c main.c common.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean

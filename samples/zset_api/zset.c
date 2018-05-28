@@ -52,32 +52,6 @@ int zset_free(zset_t *z)
 
     return 0;
 }
-/*
-* connect - establishes a connection to a Redis server
-*
-* Parameters:
-*  const char *ip - hostname
-*  int port - port
-* Returns:
-*  redisContect *c - context for redis session, NULL otherwise
-*/
-redisContext* apiConnect(const char *ip, int port)
-{
-    redisContext *c = redisConnect(ip, port);
-    if (c == NULL || c->err)
-    {
-        if (c)
-        {
-            fprintf(stderr, "err: %s\n", c->errstr);
-        }
-        else
-        {
-            fprintf(stderr, "err connect: cannot allocate redis context\n");
-        }
-        return NULL;
-    }
-    return c;
-}
 
 /*
 * connected - check if an existing session is in place
