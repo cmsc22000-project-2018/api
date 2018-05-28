@@ -5,7 +5,6 @@
 
 #include "zset.h"
 
-/* Alan */
 /*
 * connected - check if an existing session is in place
 *
@@ -118,7 +117,6 @@ int zset_rem(zset_t *z, char *key)
     return rc;
 }
 
-/* Neha */
 // see api.h
 int zset_incr(zset_t* z, char* key, int incrby)
 {
@@ -223,7 +221,6 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
     return rc;
 }
 
-/* Young-Joo */
 int zset_card(zset_t* z)
 {
     if (!connected(z))
@@ -246,7 +243,6 @@ int zset_card(zset_t* z)
     return 1;
 }
 
-/* Vanessa */
 int zset_score(zset_t* z, char* key)
 {
     int score;
