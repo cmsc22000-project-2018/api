@@ -1,0 +1,6 @@
+*.d
+*.o
+*.a
+*.rdb
+samples/zset_api/zset_example
+tests/test_zset

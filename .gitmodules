@@ -1,3 +1,6 @@
 [submodule "example_api/example_api/hiredis"]
 	path = example_api/example_api/hiredis
 	url = https://github.com/redis/hiredis.git
+[submodule "lib/redis-tries"]
+	path = lib/redis-tries
+	url = https://github.com/cmsc22000-project-2018/redis-tries.git

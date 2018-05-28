@@ -5,14 +5,6 @@
 
 #include "zset.h"
 
-/*
-* connected - check if an existing session is in place
-*
-* paramaters
-*  session_t *s - pointer to session
-* returns
-*  1 if connected, 0 if not
-*/
 int connected(zset_t *z)
 {
     if (z)
@@ -20,7 +12,7 @@ int connected(zset_t *z)
     return 0;
 }
 
-// see zset.h
+// see zset_api.h
 zset_t* zset_new(char *name)
 {
     zset_t *z;
@@ -219,6 +211,7 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
     return rc;
 }
 
+
 int zset_card(zset_t* z)
 {
     if (!connected(z))
@@ -241,7 +234,7 @@ int zset_card(zset_t* z)
     return 1;
 }
 
-int zset_score(zset_t* z, char* key)
+int zset_score(zset_t* z, char* memname)
 {
     int score;
 
