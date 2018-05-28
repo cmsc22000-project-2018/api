@@ -15,8 +15,19 @@
  *  const char *ip - hostname
  *  int port - port
  * Returns:
- *  redisContect *c - context for redis session, NULL otherwise
+ *  redisContext *c - context for redis session, NULL otherwise
  */
  redisContext* apiConnect(const char *ip, int port);
 
+/*
+ * handle_error - in the case of a redis error, set context to null & print error
+ *
+ * Parameters:
+ *  redisContext *context - context that led to error
+ *  redisReply *reply - reply object containing error string
+ * Returns:
+ *  void
+ */
+ 
+void handle_error(redisReply *reply);
 #endif

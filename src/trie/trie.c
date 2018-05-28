@@ -82,8 +82,7 @@ int trie_insert(trie_t *trie, char *word)
 
 		if (reply == NULL)
 		{
-			printf("ERROR trie-insert: %s\n", reply->str);
-			freeReplyObject(reply);
+			handle_error(reply);
 			trie->context = NULL;
 			return 1;
 		}
@@ -93,9 +92,7 @@ int trie_insert(trie_t *trie, char *word)
 
     if (reply == NULL)
     {
-        printf("ERROR trie-insert: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         trie->context = NULL;
 
         return 1;
@@ -123,8 +120,7 @@ int trie_contains(trie_t *trie, char *word)
 
         if (reply == NULL)
 		{
-			printf("ERROR trie-insert: %s\n", reply->str);
-			freeReplyObject(reply);
+			handle_error(reply);
 			trie->context = NULL;
 			return -1;
 		}
@@ -135,9 +131,7 @@ int trie_contains(trie_t *trie, char *word)
 
     if (reply == NULL)
     {
-        printf("ERROR trie-insert: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         trie->context = NULL;
 
         return -1;
