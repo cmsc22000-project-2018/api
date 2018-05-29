@@ -11,13 +11,20 @@ redisContext* apiConnect(const char *ip, int port)
     {
         if (c)
         {
-            fprintf(stderr, "err: %s\n", c->errstr);
+            fprintf(stderr, "ERROR: %s\n", c->errstr);
         }
         else
         {
-            fprintf(stderr, "err connect: cannot allocate redis context\n");
+            fprintf(stderr, "ERROR: cannot allocate redis context\n");
         }
         return NULL;
     }
     return c;
+}
+
+// see /include/api/common.h
+void handle_error(redisReply *reply)
+{
+    printf("ERROR: %s\n", reply->str);
+    freeReplyObject(reply);
 }

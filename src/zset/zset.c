@@ -79,9 +79,7 @@ int zset_add(zset_t *z, char *key, int score)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_add: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return -1;
@@ -104,9 +102,7 @@ int zset_rem(zset_t *z, char *key)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_rem: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return -1;
@@ -127,9 +123,7 @@ int zset_incr(zset_t* z, char* key, int incrby)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_incr: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
         return 0;
     }
@@ -147,9 +141,7 @@ int zset_decr(zset_t* z, char* key, int decrby)
 
     if(reply == NULL)
     {
-        printf("ERROR zset_decr: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return 0;
@@ -170,9 +162,7 @@ char** zset_revrange(zset_t* z, int start, int stop)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_revrange: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return NULL;
@@ -206,9 +196,7 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
 
     if(reply == NULL)
     {
-        printf("ERROR zset_remrangebyrank: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return -1;
@@ -228,9 +216,7 @@ int zset_card(zset_t* z)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_card: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return 0;
@@ -252,9 +238,7 @@ int zset_score(zset_t* z, char* key)
 
     if (reply->str == NULL)
     {
-        printf("ERROR zset_score: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return -1;
@@ -276,9 +260,7 @@ int zset_rank(zset_t* z, char* key)
 
     if (reply == NULL)
     {
-        printf("ERROR zset_rank: %s\n", reply->str);
-        freeReplyObject(reply);
-
+        handle_error(reply);
         z->context = NULL;
 
         return -1;

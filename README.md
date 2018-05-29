@@ -13,7 +13,7 @@ CS VM's, please refer to: https://howto.cs.uchicago.edu/vm:index
 Clone our repository into a new directory using:
 
 ```
-$ git clone https://github.com/cmsc22000-project-2018/api.git
+$ git clone https://github.com/cmsc22000-project-2018/api.git --recursive
 ```
 
 ### Installing Redis
@@ -29,7 +29,7 @@ $ sudo make install
 
 ### Installing Hiredis
 
-Run the following commands:
+Run the following commands from inside the top level directory:
 ```
 $ cd lib/hiredis-0.13.3  
 $ make  
@@ -37,27 +37,37 @@ $ sudo make install
 $ sudo ldconfig  
 ```
 
-## Testing out the API
+### Compiling the Trie Module
 
-In another window, enter the redis-4.0.9 directory and establish a connection to Redis with the following command:
-` $ src/redis-server `
-If successful, the last line of the terminal should display something along the lines of: 
+Run the following commands from inside the top-level directory:
 ```
-417:M 22 May 21:36:20.022 * DB loaded from disk: 0.002 seconds
-417:M 22 May 21:36:20.022 * Ready to accept connections
+$ cd lib/redis-tries
+$ make
+$ cd modules
+$ make
 ```
 
-Run the following commands:  
-```
-$ make  
-$ ./example  
-```
+## Trie API Functionality
+For more informaton on the Trie module functionality, please [see here.](https://github.com/cmsc22000-project-2018/redis-tries)
+
+## List of Trie API functions
+`trie_new` - creates a new trie_t struct, which you can reference by name
+`trie_t *trie_new(char *name)`
+
+`trie_free` - frees the trie_t struct
+`trie_t *trie_free(trie_t *trie)`
+
+`trie_insert` - inserts a string to a given trie (returns 0 for success, -1 otherwise)
+`int trie_insert(trie_t *trie, char *word)`
+
+`trie_contains` - checks if a word is in the trie (returns 0), not in the trie (returns 1), or a prefix (returns 2)
+`int trie_contains(trie_t *trie, char *word)`
 
 ## Sorted Set API Functionality
 
 This is an example of an API that works with sorted sets, a standard data type provided by Redis. Sorted sets in Redis consist of pairs of strings and integer scores. Score values may be repeated, but member names (strings) cannot. The full list of sorted set commands in Redis can be found here: https://redis.io/commands#sorted_set
 
-## List of all functions implemented 
+## List of all functions implemented
 Here is a list of all the functions you can experiment with for your reference:
 
 `zset_add` - adds an element with score `score` to a sorted set `z` at key `key`
@@ -90,7 +100,7 @@ zset_card - returns the cardinality of a given sorted set `z`
 zset_score - returns score of sorted set `z` at key `memname`
 `int zset_score(zset_t* z, char* memname);`
 
-zset_rank - returns rank of a member of a sorted set `z` at key `memname` sorted in ascending order 
+zset_rank - returns rank of a member of a sorted set `z` at key `memname` sorted in ascending order
 `int zset_rank(zset_t* z, char* memname);`
 
 zset_revrange - returns ranked members in sorted set `z` set range from `start` to `stop`
@@ -111,18 +121,18 @@ All of the above functions return 0 on success, and 1 if an error occurs.
 
 ### Setter Functions
 Add or remove members of the sorted set using:
-``` 
-int zset_add(zset_t *z, char *key, int score); 
-int zset_rem(zset_t *z, char *key); 
+```
+int zset_add(zset_t *z, char *key, int score);
+int zset_rem(zset_t *z, char *key);
 ```
 
-Removes all elements in the sorted set stored at key with rank between start and stop. <br> 
+Removes all elements in the sorted set stored at key with rank between start and stop. <br>
 ` int zset_remrangebyrank(zset_t* z, int start, int stop);`
 
 Change the values of sorted set members using:
-``` 
-int zset_incr(zset_t* zset, char* memname, int incrby); 
-int zset_decr(zset_t* zset, char* memname, int decrby); 
+```
+int zset_incr(zset_t* zset, char* memname, int incrby);
+int zset_decr(zset_t* zset, char* memname, int decrby);
 ```
 
 All of the above functions return 0 on success, and 1 if an error occurs.
@@ -168,4 +178,4 @@ ZDECRBY: 16
 zset_score => 16
 zset_rank apples => 0
 zset_rank bananas => 1
-``` 
+```

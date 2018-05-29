@@ -1,14 +1,11 @@
-#e based on template at https://gist.github.com/xuhdev/1873316
-# Makefile based on lab5
-
-CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include/api
+C = gcc 
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../../include/api/
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
-BIN = test-zset
-LDLIBS = -lcriterion -lhiredis
+BIN = zset_example
+LDLIBS = -lhiredis
 
-SRCS = main.c zset.c common.c test_zset.c 
+SRCS = ../../src/zset/zset.c main.c ../../src/common/common.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean
@@ -19,4 +16,3 @@ $(BIN): $(OBJS)
 
 clean:
 	-$(RM) $(BIN) $(OBJS)
-

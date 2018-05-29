@@ -5,7 +5,7 @@ RM = rm -f
 BIN = trie_example
 LDLIBS = -lhiredis
 
-SRCS = trie.c main.c common.c
+SRCS = ../../src/trie/trie.c main.c ../../src/common/common.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../include/api/zset.h" 
+#include "../../include/api/zset.h" 
 
 Test(veggies, new)
 {
@@ -37,9 +37,9 @@ Test(veggies, incr)
 	z_healthy = zset_new("healthy");
 	int yes, yay; 
 	yes = zset_incr(z_healthy, "carrots", 50); 
-	cr_assert_eq(yes, 1, "failed to increment carrots");
+	cr_assert_neq(yes, 0, "failed to increment carrots");
 	yay = zset_incr(z_healthy, "cabbage", 20); 
-	cr_assert_eq(yay, 1, "failed to increment cabbage"); 
+	cr_assert_neq(yay, 0, "failed to increment cabbage"); 
 }
 
 Test(veggies, decr)
@@ -48,7 +48,7 @@ Test(veggies, decr)
 	z_healthy = zset_new("healthy"); 
 	int yes; 
 	yes = zset_decr(z_healthy, "cabbage", 20); 
-	cr_assert_eq(yes, 1, "failed to decrement cabbage"); 
+	cr_assert_neq(yes, 0, "failed to decrement cabbage"); 
 }
 
 Test(veggies, card)
@@ -57,7 +57,7 @@ Test(veggies, card)
         z_healthy = zset_new("healthy"); 
         int yes;
 	yes = zset_card(z_healthy); 
-	cr_assert_eq(yes, 1, "failed to count"); 
+	cr_assert_neq(yes, 0, "failed to count"); 
 }
 
 
