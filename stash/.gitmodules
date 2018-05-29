@@ -1,3 +1,0 @@
-[submodule "example_api/example_api/hiredis"]
-	path = example_api/example_api/hiredis
-	url = https://github.com/redis/hiredis.git
