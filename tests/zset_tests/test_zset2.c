@@ -35,11 +35,9 @@ Test(veggies, incr)
 {
 	zset_t *z_healthy;
 	z_healthy = zset_new("healthy");
-	int yes, yay; 
+	int yes; 
 	yes = zset_incr(z_healthy, "carrots", 50); 
 	cr_assert_neq(yes, 0, "failed to increment carrots");
-	yay = zset_incr(z_healthy, "cabbage", 20); 
-	cr_assert_neq(yay, 0, "failed to increment cabbage"); 
 }
 
 Test(veggies, decr)
