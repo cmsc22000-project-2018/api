@@ -222,7 +222,6 @@ int zset_card(zset_t* z)
         return 0;
     }
 
-    printf("ZCARD (%s): %lld\n", z->name, reply->integer);
     freeReplyObject(reply);
     return 1;
 }

@@ -2,13 +2,13 @@
 # Makefile based on lab5
 
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include/api
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
 BIN = test-zset
 LDLIBS = -lcriterion -lhiredis
 
-SRCS = main.c ../../src/zset/zset.c ../../src/common/common.c test_zset.c test_zset2.c test_zset3.c 
+SRCS = main.c ../../src/zset/zset.c ../../src/common/common.c test_zset.c 
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean

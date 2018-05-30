@@ -14,29 +14,6 @@ typedef struct
     redisContext *context;
 } zset_t;
 
-/*
- * zset_add - adds an element to a sorted set
- *
- * Parameters:
- *  zset_t *z - sorted set wrapper struct
- *  char *key - key for the element
- *  int score - score for the element
- * Returns:
- *  int - new number of elements for success, -1 for failure
- */
-int zset_add(zset_t *z, char *key, int score);
-
-/*
- * zset_rem - removes an element from a sorted set
- *
- * Parameters:
- *  zset_t *z - sorted set wrapper struct
- *  char *key - key for the element
- * Returns:
- *  int - 1 for success, 0 for failure
- */
-int zset_rem(zset_t *z, char *key);
-
 /* zset_new - returns pointer to a new zset_t struct
  *
  *  Parameters:
@@ -64,6 +41,29 @@ int zset_init(zset_t *z, char *name);
  *      0 for success, 1 for error
  */
 int zset_free(zset_t *z);
+
+/*
+ * zset_add - adds an element to a sorted set
+ *
+ * Parameters:
+ *  zset_t *z - sorted set wrapper struct
+ *  char *key - key for the element
+ *  int score - score for the element
+ * Returns:
+ *  int - new number of elements for success, -1 for failure
+ */
+int zset_add(zset_t *z, char *key, int score);
+
+/*
+ * zset_rem - removes an element from a sorted set
+ *
+ * Parameters:
+ *  zset_t *z - sorted set wrapper struct
+ *  char *key - key for the element
+ * Returns:
+ *  int - 1 for success, 0 for failure
+ */
+int zset_rem(zset_t *z, char *key);
 
 /* zset_incr - increments zset struct by some amt
  *
