@@ -13,7 +13,7 @@
 * returns
 *  1 if connected, 0 if not
 */
-int connected(trie_t *t)
+int trie_connected(trie_t *t)
 {
     if (t)
         return t->context != NULL;
@@ -73,7 +73,7 @@ int trie_insert(trie_t *trie, char *word)
     int rc;
 	redisReply *reply;
 
-    if (!connected(trie))
+    if (!trie_connected(trie))
 	{
 		// establish connection to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
@@ -111,7 +111,7 @@ int trie_contains(trie_t *trie, char *word)
     int rc;
     redisReply *reply;
 
-    if (!connected(trie))
+    if (!trie_connected(trie))
     {
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
