@@ -5,3 +5,6 @@
 	path = lib/redis-tries
 	url = https://github.com/cmsc22000-project-2018/redis-tries.git
 	ignore = dirty
+[submodule "samples/example_app/api"]
+	path = samples/example_app/api
+	url = https://github.com/cmsc22000-project-2018/api.git
