@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../include/api/trie.h"
+#include "trie.h"
 
 Test(trie, new)
 {
