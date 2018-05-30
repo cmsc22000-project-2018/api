@@ -2,12 +2,12 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/api/
-LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
+LDFLAGS = -L./lib/hiredis-0.13.3 -Wl,-rpath,./lib/hiredis-0.13.3
 RM = rm -f
-STATIC_LIB = libhiredis.a
+DYNAMIC_LIB = libredisApi.so
 LDLIBS = -lhiredis
-LIBS = $(STATIC_LIB)
+LIBS = $(DYNAMIC_LIB)
 
 SRCS = src/zset/zset.c src/common/common.c src/trie/trie.c
 OBJS = $(SRCS:.c=.o)
@@ -15,9 +15,13 @@ OBJS = $(SRCS:.c=.o)
 .PHONY: all
 all: $(LIBS)
 
-$(STATIC_LIB): $(OBJS)
-	$(AR) -r -o $@ $^
+$(DYNAMIC_LIB): $(OBJS)
+	- $(CC) -shared -o $@ $^ $(LDLIBS)
+	- make -C lib/redis-tries
+	- make -C lib/redis-tries/module
 
 .PHONY: clean
 clean:
-	-$(RM) $(LIBS) $(OBJS)
+	- $(RM) $(LIBS) $(OBJS)
+	- make -C lib/redis-tries clean
+	- make -C lib/redis-tries/module clean
