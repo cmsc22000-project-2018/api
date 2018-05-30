@@ -16,8 +16,12 @@ OBJS = $(SRCS:.c=.o)
 all: $(LIBS)
 
 $(DYNAMIC_LIB): $(OBJS)
-	$(CC) -shared -o $@ $^ $(LDLIBS)
+	- $(CC) -shared -o $@ $^ $(LDLIBS)
+	- make -C lib/redis-tries
+	- make -C lib/redis-tries/module
 
 .PHONY: clean
 clean:
-	-$(RM) $(LIBS) $(OBJS)
+	- $(RM) $(LIBS) $(OBJS)
+	- make -C lib/redis-tries clean
+	- make -C lib/redis-tries/module clean
