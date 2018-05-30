@@ -17,12 +17,13 @@ Test(zset, new)
 
 Test(zset, init)
 {
-    zset_t test_zset; 
+    zset_t *test_zset = zset_new("fruits");  
     int rc; 
 
     rc = zset_init(test_zset, "fruits"); 
     cr_assert_eq(rc, 0, "zset_init() failed"); 
     cr_assert_eq(test_zset->name, "fruits", "zset_init() didn't set name"); 
+    zset_free(test_zset); 
 }
 
 Test(zset, free)
@@ -38,7 +39,7 @@ Test(zset, free)
 
 Test(zset, add)
 {
-    zset_*test_zset = zset_new("fruits"); 
+    zset_t *test_zset = zset_new("fruits"); 
     cr_assert_neq(zset_add(test_zset, "bananas", 15),-1,
                   "zset_add did not add a new element");
     cr_assert_neq(zset_add(test_zset, "apples", 8),-1,
@@ -54,12 +55,12 @@ Test(zset, rem)
     int rc;
     int rcc;  
  
-    fruits = zset_new("fruits"); 
+    test_zset = zset_new("fruits"); 
     rc = zset_add(test_zset, "banana", 150); 
     cr_assert_eq(rc, 1, "zset_add() failed"); 
 
-    rc = zset_rem(test_zset, "banana"); 
-    cr_assert_eq(rc, 1, "zset_rem() failed"); 
+    rcc = zset_rem(test_zset, "banana"); 
+    cr_assert_eq(rcc, 1, "zset_rem() failed"); 
     
     zset_free(test_zset); 
 }
@@ -96,11 +97,11 @@ Test(zset, decr)
 
 Test(veggies, card)
 {
-    zset_t *fruits = zset_new("fruits");
+    zset_t *test_zset = zset_new("fruits");
     zset_add(test_zset, "bananas", 15);
     zset_add(test_zset, "apples", 8);
     
-    rc = zset_card(test_zset); 
+    int rc = zset_card(test_zset); 
 
     cr_assert_neq(rc, 0, "zset_card failed to count");
 
