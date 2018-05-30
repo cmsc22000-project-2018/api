@@ -78,7 +78,7 @@ int trie_insert(trie_t *trie, char *word)
 		// establish connection to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
 		// load trie module
-		reply = redisCommand(trie->context, "MODULE LOAD ../../lib/redis-tries/module/trie.so");
+		reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -116,7 +116,7 @@ int trie_contains(trie_t *trie, char *word)
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
         // load trie module
-        reply = redisCommand(trie->context, "MODULE LOAD ../../lib/redis-tries/module/trie.so");
+        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
 
         if (reply == NULL)
 		{
