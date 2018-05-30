@@ -4,7 +4,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../include/api/zset.h"
+#include "zset.h"
 
 /* zset_new */ 
 Test(zset, new)

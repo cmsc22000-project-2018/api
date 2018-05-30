@@ -2,7 +2,7 @@
 # Makefile based on lab5
 
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include/api
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include
 LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
 RM = rm -f
 BIN = test-zset
