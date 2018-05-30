@@ -8,7 +8,7 @@ RM = rm -f
 BIN = test-zset
 LDLIBS = -lcriterion -lhiredis
 
-SRCS = main.c ../../src/zset/zset.c ../../src/common/common.c test_zset.c test_zset2.c test_zset3.c 
+SRCS = main.c ../../src/zset/zset.c ../../src/common/common.c test_zset_new.c 
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean
