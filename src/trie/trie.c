@@ -86,7 +86,6 @@ int trie_insert(trie_t *trie, char *word)
 			trie->context = NULL;
 			return 1;
 		}
-		printf("LOADING TRIE-MODULE: %s\n", reply->str);
 	}
     reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
 
@@ -97,8 +96,6 @@ int trie_insert(trie_t *trie, char *word)
 
         return 1;
     }
-
-	printf("TRIE_INSERT: %s\n", reply->str);
 
     rc = reply->integer;
     freeReplyObject(reply);
@@ -124,7 +121,6 @@ int trie_contains(trie_t *trie, char *word)
 			trie->context = NULL;
 			return -1;
 		}
-		printf("LOADING TRIE-MODULE: %s\n", reply->str);
 	}
 
     reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
