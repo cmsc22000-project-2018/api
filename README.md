@@ -168,7 +168,7 @@ Return the elements within the numerical range between two ranks, when the sorte
 ` char** zset_revrange(zset_t* z, int start, int stop);`<br>
 
 ## ZSET Sample
-In another window, open a connection to Redis (see "Testing Out the API" for instructions on how to do this).
+In another window, open a connection to Redis,using the command redis-server (see "Testing Out the API" for more instructions on how to do this).
 The following code:
 ```
 #include <stdio.h>
