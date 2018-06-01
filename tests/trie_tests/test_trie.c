@@ -58,7 +58,7 @@ Test(trie, contains)
     int rc_1 = trie_contains(test_trie, "hi"); 
     int rc_2 = trie_contains(test_trie, "bye bye"); 
     int rc_3 = trie_contains(test_trie, "uuu"); 
-    printf("%d\n",rc_1);
+
     cr_assert_eq(rc_1,0,"trie_contains() does not work");
     cr_assert_eq(rc_2,0,"trie_contains() does not work");
     cr_assert_eq(rc_3, 1,"trie_contains() does not work");

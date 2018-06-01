@@ -8,7 +8,7 @@ RM = rm -f
 BIN = test-trie
 LDLIBS = -lcriterion -lhiredis
 
-SRCS = main.c trie.c ../../src/common/common.c test_trie.c  
+SRCS = main.c ../../src/trie/trie.c ../../src/common/common.c test_trie.c  
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean
