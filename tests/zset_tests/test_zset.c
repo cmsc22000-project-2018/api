@@ -98,9 +98,9 @@ Test(zset, decr)
     int rc_1 = zset_decr(test_zset, "bananas",2); 
     int rc_2 = zset_decr(test_zset, "apples",14); 
     int rc_3 = zset_decr(test_zset, "oranges",0); 
-    cr_assert_eq(rc_1,13, "zset_incr() failed");
-    cr_assert_eq(rc_2,-6, "zset_incr() failed");
-    cr_assert_eq(rc_3,6, "zset_incr() failed");
+    cr_assert_eq(rc_1,13, "zset_decr() failed");
+    cr_assert_eq(rc_2,-6, "zset_decr() failed");
+    cr_assert_eq(rc_3,6, "zset_decr() failed");
     
     zset_free(test_zset); 
 }
@@ -115,7 +115,7 @@ Test(zset, card)
     
     int rc = zset_card(test_zset); 
 
-    cr_assert_neq(rc, 0, "zset_card() failed");
+    cr_assert_neq(rc, -1, "zset_card() failed");
 
     zset_free(test_zset); 
 }
