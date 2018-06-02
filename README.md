@@ -51,17 +51,37 @@ $ make
 For more informaton on the Trie module functionality, please [see here.](https://github.com/cmsc22000-project-2018/redis-tries)
 
 ## List of Trie API functions
-`trie_new` - creates a new trie_t struct, which you can reference by name
+`trie_new` - creates a new trie_t struct, which you can reference by name <br>
 `trie_t *trie_new(char *name)`
 
-`trie_free` - frees the trie_t struct
-`trie_t *trie_free(trie_t *trie)`
+`trie_free` - frees the trie_t struct (always returns 0) <br>
+`int *trie_free(trie_t *trie)`
 
-`trie_insert` - inserts a string to a given trie (returns 0 for success, -1 otherwise)
+`trie_insert` - inserts a string to a given trie (returns 0 for success, -1 otherwise) <br>
 `int trie_insert(trie_t *trie, char *word)`
 
-`trie_contains` - checks if a word is in the trie (returns 0), not in the trie (returns 1), or a prefix (returns 2)
+`trie_contains` - checks if a word is in the trie (returns 0), not in the trie (returns 1), or a prefix (returns 2) <br>
 `int trie_contains(trie_t *trie, char *word)`
+
+## Trie API Sample
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "trie.h"
+
+int main()
+{
+        trie_t *test1 = trie_new("test1");
+        trie_insert(test1, "hello");
+        printf("trie_contains(test1, \"hello\"): %d\n", trie_contains(test1, "hello")); // is a word
+        printf("trie_contains(test1, \"helloo\"): %d\n", trie_contains(test1, "helloo")); // not a word
+        printf("trie_contains(test1, \"he\"): %d\n", trie_contains(test1, "he")); // is a prefix
+        free(test1);
+
+        return 0;
+}
+```
 
 ## Sorted Set API Functionality
 
@@ -73,40 +93,40 @@ Here is a list of all the functions you can experiment with for your reference:
 `zset_add` - adds an element with score `score` to a sorted set `z` at key `key`
 `int zset_add(zset_t *z, char *key, int score)`;
 
-zset_rem - removes an element from a sorted set `z` at key `key`
+`zset_rem` - removes an element from a sorted set `z` at key `key`
 `int zset_rem(zset_t *z, char *key);`
 
-zset_new - returns pointer to a new sorted set with name `name`
+`zset_new` - returns pointer to a new sorted set with name `name`
 `zset_t* zset_new(char *name);`
 
-zset_init - initializes fields in a sorted set `zset` to name `name`
+`zset_init` - initializes fields in a sorted set `zset` to name `name`
 `int zset_init(zset_t *zset, char *name);`
 
-zset_free - frees sorted set `zset`
+`zset_free` - frees sorted set `zset`
 `int zset_free(zset_t *zset);`
 
-zset_incr - increments sorted set `zset` at `key` by `incrby`
+`zset_incr` - increments sorted set `zset` at `key` by `incrby`
 `int zset_incr(zset_t* zset, char* key, int incrby);`
 
-zset_decr - decrements sorted set `zset` at `key` by `decrby`
+`zset_decr` - decrements sorted set `zset` at `key` by `decrby`
 `int zset_decr(zset_t* zset, char* key, int decrby);`
 
-zset_rem - removes a member of a sorted set `z` at key `name`
+`zset_rem` - removes a member of a sorted set `z` at key `name`
 `int zset_rem(zset_t *z, char *name); `
 
-zset_card - returns the cardinality of a given sorted set `z`
+`zset_card` - returns the cardinality of a given sorted set `z`
 `int zset_card(zset_t* z);`
 
-zset_score - returns score of sorted set `z` at key `memname`
+`zset_score` - returns score of sorted set `z` at key `memname`
 `int zset_score(zset_t* z, char* memname);`
 
-zset_rank - returns rank of a member of a sorted set `z` at key `memname` sorted in ascending order
+`zset_rank` - returns rank of a member of a sorted set `z` at key `memname` sorted in ascending order
 `int zset_rank(zset_t* z, char* memname);`
 
-zset_revrange - returns ranked members in sorted set `z` set range from `start` to `stop`
+`zset_revrange` - returns ranked members in sorted set `z` set range from `start` to `stop`
 `char** zset_revrange(zset_t* z, int start, int stop);`
 
-zset_remrangebyrank - removes ranked members in sorted set `z` in set range from `start` to 1stop`
+`zset_remrangebyrank` - removes ranked members in sorted set `z` in set range from `start` to 1stop
 `int zset_remrangebyrank(zset_t* z, int start, int stop);`
 
 ### Basics
@@ -147,8 +167,8 @@ Return the rank (numerical position in the sorted set if sorted in ascending ord
 Return the elements within the numerical range between two ranks, when the sorted set is ranked from highest to lowest score:<br>
 ` char** zset_revrange(zset_t* z, int start, int stop);`<br>
 
-## Sample
-In another window, open a connection to Redis (see "Testing Out the API" for instructions on how to do this).
+## ZSET Sample
+In another window, open a connection to Redis,using the command redis-server (see "Testing Out the API" for more instructions on how to do this).
 The following code:
 ```
 #include <stdio.h>

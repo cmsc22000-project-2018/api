@@ -20,8 +20,12 @@ $(DYNAMIC_LIB): $(OBJS)
 	- make -C lib/redis-tries
 	- make -C lib/redis-tries/module
 
+tests: $(DYNAMIC_LIB)
+	- make -C tests/trie_tests
+
 .PHONY: clean
 clean:
 	- $(RM) $(LIBS) $(OBJS)
 	- make -C lib/redis-tries clean
 	- make -C lib/redis-tries/module clean
+	- make -C tests/trie_tests clean
