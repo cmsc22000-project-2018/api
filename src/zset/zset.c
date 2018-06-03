@@ -16,7 +16,9 @@
 int connected(zset_t *z)
 {
     if (z)
+    {
         return z->context != NULL;
+    }
     return 0;
 }
 
@@ -30,7 +32,7 @@ zset_t* zset_new(char *name)
 
     if (z == NULL)
     {
-        printf("zset_new: could not allocate memory\n");
+        fprintf(stderr,"zset_new: could not allocate memory\n");
         return NULL;
     }
 
@@ -38,7 +40,7 @@ zset_t* zset_new(char *name)
 
     if (rc != 0)
     {
-        printf("zset_new: could not initialize zset\n");
+        fprintf(stderr,"zset_new: could not initialize zset\n");
         return NULL;
     }
 
@@ -73,7 +75,9 @@ int zset_add(zset_t *z, char *key, int score)
     int rc;
 
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
 
     redisReply *reply = redisCommand(z->context, "ZADD %s %d %s", z->name, score, key);
 
@@ -96,7 +100,9 @@ int zset_rem(zset_t *z, char *key)
     int rc;
 
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
 
     redisReply *reply = redisCommand(z->context, "ZREM %s %s", z->name, key);
 
@@ -117,7 +123,9 @@ int zset_rem(zset_t *z, char *key)
 int zset_incr(zset_t* z, char* key, int incrby)
 {
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
 
     redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, incrby, key);
 
@@ -135,8 +143,9 @@ int zset_incr(zset_t* z, char* key, int incrby)
 int zset_decr(zset_t* z, char* key, int decrby)
 {
     if(!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
-
+    }
     redisReply *reply = redisCommand(z->context, "ZINCRBY %s %d %s", z->name, -decrby, key);
 
     if(reply == NULL)
@@ -156,7 +165,9 @@ char** zset_revrange(zset_t* z, int start, int stop)
     unsigned int i;
 
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
 
     redisReply *reply = redisCommand(z->context, "ZREVRANGE %s %d %d", z->name,start, stop);
 
@@ -190,7 +201,9 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
     int rc;
 
     if(!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379); //localhost
+    }
 
     redisReply *reply = redisCommand(z->context, "ZREMRANGEBYRANK %s %d %d", z->name,start, stop);
 
@@ -209,9 +222,11 @@ int zset_remrangebyrank(zset_t* z, int start, int stop)
 
 int zset_card(zset_t* z)
 {
+    int card;
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379);
-
+    }
     redisReply* reply = redisCommand(z->context, "ZCARD %s", z->name);
 
     if (reply == NULL)
@@ -219,11 +234,11 @@ int zset_card(zset_t* z)
         handle_error(reply);
         z->context = NULL;
 
-        return 0;
+        return -1;
     }
-
+    card = reply->integer;
     freeReplyObject(reply);
-    return 1;
+    return card;
 }
 
 int zset_score(zset_t* z, char* key)
@@ -231,7 +246,9 @@ int zset_score(zset_t* z, char* key)
     int score;
 
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379);
+    }
 
     redisReply* reply = redisCommand(z->context, "ZSCORE %s %s", z->name, key);
 
@@ -253,7 +270,9 @@ int zset_rank(zset_t* z, char* key)
     int rank;
 
     if (!connected(z))
+    {
         z->context = apiConnect("127.0.0.1", 6379);
+    }
 
     redisReply* reply = redisCommand(z->context, "ZRANK %s %s", z->name, key);
 
