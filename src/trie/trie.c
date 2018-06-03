@@ -78,7 +78,7 @@ int trie_insert(trie_t *trie, char *word)
 		// establish connection to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
 		// load trie module
-		reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -113,7 +113,7 @@ int trie_contains(trie_t *trie, char *word)
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
         // load trie module
-        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+        reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
         if (reply == NULL)
 		{
@@ -140,7 +140,7 @@ int trie_contains(trie_t *trie, char *word)
 		case 1:
 			rc = 0;
 			break;
-		case 0: 
+		case 0:
 			rc = 1;
 			break;
 		case -1:
@@ -153,4 +153,60 @@ int trie_contains(trie_t *trie, char *word)
 
     freeReplyObject(reply);
     return rc;
+}
+
+// see trie.h
+char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matches)
+{
+    redisReply *reply;
+    unsigned int i;
+
+    /* check if context is connected to a redis server */
+    if (!trie_connected(trie))
+    {
+        // connect to server
+        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        // load trie module
+        reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
+        // check if error occurred during true module loading
+        if (reply == NULL)
+        {
+            handle_error(reply);
+            trie->context = NULL;
+            return NULL;
+        }
+    }
+
+    /* execute redis command */
+    reply = redisCommand(trie->context, "TRIE.APPROXMATCH %s %s %d %d",
+                         trie->name, prefix, max_edit_dist, num_matches);
+    /* check if error occurred during redis command execution */
+    if (reply == NULL)
+    {
+        handle_error(reply);
+        trie->context = NULL;
+
+        return NULL;
+    }
+
+    /* return array of completions */
+    char **completes = malloc(sizeof(char *) * (reply->elements + 1));
+
+	/* populate return array with data from redis reply*/
+    for (i = 0; i < reply->elements; ++i)
+    {
+        // char limit per word: 80
+        completes[i] = (char *)malloc(sizeof(char) * 80);
+        if (reply->element[i]->str == NULL)
+			completes[i] = NULL;
+		else
+			strncpy(completes[i], reply->element[i]->str, (sizeof(char) * 80));
+    }
+
+    /* end of return array */
+    completes = NULL;
+
+//	for (i = 0; i < reply->elements; ++i)
+//		printf("%d: %s\n", i, completes[i]);
+    return completes;
 }

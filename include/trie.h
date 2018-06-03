@@ -21,7 +21,7 @@
   *  Returns:
   *      trie_t* - pointer to new tr]ie_t struct, NULL otherwise
   */
- trie_t* trie_new(char *name);
+trie_t* trie_new(char *name);
 
  /* trie_init - initializes fields in a trie struct
   *
@@ -31,7 +31,7 @@
   *  Returns:
   *      0 for success, 1 for error
   */
- int trie_init(trie_t *trie, char *name);
+int trie_init(trie_t *trie, char *name);
 
  /* trie_free - frees trie struct
   *
@@ -40,7 +40,7 @@
   *  Returns:
   *      0 for success, 1 for error
   */
- int trie_free(trie_t *trie);
+int trie_free(trie_t *trie);
 
 /* trie_insert - inserts a string into a given trie key
  *
@@ -55,7 +55,7 @@ int trie_insert(trie_t *trie, char *word);
 /* trie_contains - checks if a string exists in a given trie
  *
  * Parameters:
- *      trie_t *trie - pointer to opaque trie dadta structure
+ *      trie_t *trie - pointer to opaque trie data structure
  *      char *word - string to check within a trie
  * Returns:
  *	   -1 - error
@@ -65,4 +65,15 @@ int trie_insert(trie_t *trie, char *word);
  */
 int trie_contains(trie_t *trie,  char *word);
 
+/* trie_approx - returns a list of words with a given prefix
+ *
+ * Paramters:
+ *      trie_t *trie - pointer to opaque trie data structure
+ *      char *prefix - prefix of suggested words
+ *      int max_edit_dist - how close the words returned can be to prefix
+ *      int num_matches - number of possible completions returned
+ * Returns:
+ *      char ** - a list of strings (completions)
+ */
+char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matches);
 #endif
