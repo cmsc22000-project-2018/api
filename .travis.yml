@@ -8,8 +8,9 @@ branches:
     - alan/example_api
 
 script:
-    - make
+    - make clean 
+    - make 
     - make tests
     - ./tests/trie_tests/test-trie
     - ./tests/zset_tests/zset-trie
-
+    - make clean
