@@ -7,10 +7,8 @@ branches:
     - master
     - alan/example_api
 
-jobs:
-  include:
-    - stage: build
-      script: echo Built!
-    - stage: test
-      script: echo Tested!
+script:
+    - make tests
+    - ./tests/trie_tests/test-trie
+    - ./tests/zset_tests/zset-trie
 
