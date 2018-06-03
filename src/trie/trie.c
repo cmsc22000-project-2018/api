@@ -133,18 +133,23 @@ int trie_contains(trie_t *trie, char *word)
         return -1;
     }
 
-    char *ret_str = reply->str;
+    int reply_int = reply->integer;
 
-    if (!strcmp(ret_str, "The trie contains the word."))
-        rc = 0;
-    else if (!strcmp(ret_str, "The trie does not contain \
-                the word."))
-        rc = 1;
-    else if (!strcmp(ret_str, "The trie contains it as a \
-                prefix but not as a word."))
-        rc = 2;
-    else
-        rc = -1;
+	switch (reply_int)
+	{
+		case 1:
+			rc = 0;
+			break;
+		case 0: 
+			rc = 1;
+			break;
+		case -1:
+			rc = 2;
+			break;
+		default:
+			rc = -1;
+			break;
+	}
 
     freeReplyObject(reply);
     return rc;
