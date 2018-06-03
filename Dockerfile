@@ -7,6 +7,6 @@ RUN make -C /tmp/module/
 
 FROM redis
 
-COPY --from=0 /tmp/module/module.so /usr/local/lib
+COPY --from=0 /tmp/module/trie.so /usr/local/lib
 
-CMD ["redis-server", "--loadmodule", "/usr/local/lib/module.so"]
+CMD ["redis-server", "--loadmodule", "/usr/local/lib/trie.so"]
