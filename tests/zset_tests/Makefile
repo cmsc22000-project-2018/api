@@ -3,7 +3,7 @@
 
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../../include
-LDFLAGS = -L./hiredis -Wl,-rpath,./hiredis
+LDFLAGS = -L./lib/hiredis-0.13.3 -Wl,-rpath,./lib/hiredis-0.13.3
 RM = rm -f
 BIN = test-zset
 LDLIBS = -lcriterion -lhiredis
