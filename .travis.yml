@@ -10,6 +10,7 @@ branches:
 script:
     - make clean 
     - make 
-    - make tests
+    - make -C tests/trie_tests
     - tests/trie_tests/test-trie
+    - make -C tests/zset_tests
     - tests/zset_tests/test-zset
