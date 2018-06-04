@@ -67,6 +67,29 @@ int trie_free(trie_t *trie)
     return 0;
 }
 
+int trie_delete(trie_t* trie, char* name)
+{
+    int rc;
+
+    if (!trie_connected(trie)) {
+      trie->context = apiConnect("127.0.0.1", 6379);
+    }
+
+    redisReply *reply = redisCommand(trie->context, "DEL %s %s", trie->name, name);
+
+    if (reply == NULL)
+    {
+      handle_error(reply);
+      trie->context = NULL;
+
+      return 1;
+    }
+
+    rc = reply->integer;
+    freeReplyObject(reply);
+    return rc;
+}
+
 // see trie.h
 int trie_insert(trie_t *trie, char *word)
 {
@@ -219,3 +242,40 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
 
     return completes;
 }
+
+// see trie.h
+int trie_completions(trie_t *trie, char *prefix)
+{
+    redisReply *reply;
+
+    if (!trie_connected(trie))
+    {
+        // connect to server
+        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        // load trie module
+        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+        if (reply == NULL)
+		{
+			handle_error(reply);
+			trie->context = NULL;
+			return -1;
+		}
+	}
+
+    reply = redisCommand(trie->context, "TRIE.COMPLETIONS %s %s", trie->name, prefix);
+
+    if (reply == NULL)
+    {
+        handle_error(reply);
+        trie->context = NULL;
+
+        return -1;
+    }
+
+    int reply_int = reply->integer;
+    freeReplyObject(reply);
+    return reply_int;
+}
+
+
