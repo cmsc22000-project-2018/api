@@ -15,7 +15,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $(BIN) $(LDLIBS) 
+	$(CC) $(LDFLAGS) $^ -o $(BIN) $(LDLIBS) 
 
 clean:
 	-$(RM) $(BIN) $(OBJS)
