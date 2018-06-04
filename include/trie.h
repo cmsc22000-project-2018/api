@@ -19,9 +19,19 @@
   *  Parameters:
   *      char *name - name of trie
   *  Returns:
-  *      trie_t* - pointer to new tr]ie_t struct, NULL otherwise
+  *      trie_t* - pointer to new trie_t struct, NULL otherwise
   */
 trie_t* trie_new(char *name);
+
+ /* trie_delete - deletes a trie struct
+  *
+  *  Parameters:
+  *      trie_t* trie - pointer to a trie
+  *      char* name - name of the trie to be deleted
+  *   Returns:
+  *      0 for success, 1 for error
+  */
+int trie_delete(trie_t* trie, char* name);
 
  /* trie_init - initializes fields in a trie struct
   *

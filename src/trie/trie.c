@@ -67,6 +67,29 @@ int trie_free(trie_t *trie)
     return 0;
 }
 
+int trie_delete(trie_t* trie, char* name)
+{
+    int rc;
+
+    if (!trie_connected(trie)) {
+      trie->context = apiConnect("127.0.0.1", 6379);
+    }
+
+    redisReply *reply = redisCommand(trie->context, "DEL %s %s", trie->name, name);
+
+    if (reply == NULL)
+    {
+      handle_error(reply);
+      trie->context = NULL;
+
+      return 1;
+    }
+
+    rc = reply->integer;
+    freeReplyObject(reply);
+    return rc;
+}
+
 // see trie.h
 int trie_insert(trie_t *trie, char *word)
 {
