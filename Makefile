@@ -8,6 +8,7 @@ RM = rm -f
 DYNAMIC_LIB = libredisApi.so
 LDLIBS = -lhiredis
 LIBS = $(DYNAMIC_LIB)
+DUMP = *.rdb
 
 SRCS = src/zset/zset.c src/common/common.c src/trie/trie.c
 OBJS = $(SRCS:.c=.o)
@@ -25,7 +26,7 @@ tests: $(DYNAMIC_LIB)
 
 .PHONY: clean
 clean:
-	- $(RM) $(LIBS) $(OBJS)
+	- $(RM) $(LIBS) $(OBJS) $(DUMP)
 	- make -C lib/redis-tries clean
 	- make -C lib/redis-tries/module clean
 	- make -C tests/trie_tests clean
