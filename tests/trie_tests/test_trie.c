@@ -40,9 +40,9 @@ Test(trie, insert)
     int rc_2 = trie_insert(test_trie,"bye bye"); 
     int rc_3 = trie_insert(test_trie, "I wish I could quit you"); 
 
-    cr_assert_neq(rc_1, 1, "trie_insert() failed");
-    cr_assert_neq(rc_2, 1, "trie_insert() failed");
-    cr_assert_neq(rc_3, 1, "trie_insert() failed");
+    cr_assert_eq(rc_1, 0, "trie_insert() failed");
+    cr_assert_eq(rc_2, 0, "trie_insert() failed");
+    cr_assert_eq(rc_3, 0, "trie_insert() failed");
  
     trie_free(test_trie); 
 }

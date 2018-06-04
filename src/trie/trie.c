@@ -52,9 +52,9 @@ int trie_init(trie_t *trie, char *name)
 
     trie->name = name;
     trie->context = NULL;
-
     return 0;
 }
+
 
 // see trie.h
 int trie_free(trie_t *trie)
@@ -77,8 +77,10 @@ int trie_insert(trie_t *trie, char *word)
 	{
 		// establish connection to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
-		// load trie module
-		reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+        reply = redisCommand(trie->context, "MODULE LIST");
+        if (reply->elements == 0)
+		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -98,6 +100,7 @@ int trie_insert(trie_t *trie, char *word)
     }
 
     rc = reply->integer;
+
     freeReplyObject(reply);
     return rc;
 }
@@ -112,14 +115,16 @@ int trie_contains(trie_t *trie, char *word)
     {
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
-        // load trie module
-        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
 
-        if (reply == NULL)
+        reply = redisCommand(trie->context, "MODULE LIST");
+        if (reply->elements == 0)
+		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+		if (reply == NULL)
 		{
 			handle_error(reply);
 			trie->context = NULL;
-			return -1;
+			return 1;
 		}
 	}
 
@@ -152,6 +157,7 @@ int trie_contains(trie_t *trie, char *word)
 	}
 
     freeReplyObject(reply);
+
     return rc;
 }
 
@@ -166,20 +172,23 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     {
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
-        // load trie module
-        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
-        // check if error occurred during true module loading
-        if (reply == NULL)
-        {
-            handle_error(reply);
-            trie->context = NULL;
-            return NULL;
-        }
+
+        reply = redisCommand(trie->context, "MODULE LIST");
+        if (reply->elements == 0)
+		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+		if (reply == NULL)
+		{
+			handle_error(reply);
+			trie->context = NULL;
+			return NULL;
+		}
     }
 
     /* execute redis command */
     reply = redisCommand(trie->context, "TRIE.APPROXMATCH %s %s %d %d",
                          trie->name, prefix, max_edit_dist, num_matches);
+
     /* check if error occurred during redis command execution */
     if (reply == NULL)
     {
@@ -204,9 +213,9 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     }
 
     /* end of return array */
-    completes = NULL;
+    completes[i] = NULL;
 
-//	for (i = 0; i < reply->elements; ++i)
-//		printf("%d: %s\n", i, completes[i]);
+    freeReplyObject(reply);
+
     return completes;
 }
