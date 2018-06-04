@@ -210,3 +210,40 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
 //		printf("%d: %s\n", i, completes[i]);
     return completes;
 }
+
+// see trie.h
+int trie_completions(trie_t *trie, char *prefix)
+{
+    redisReply *reply;
+
+    if (!trie_connected(trie))
+    {
+        // connect to server
+        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        // load trie module
+        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+        if (reply == NULL)
+		{
+			handle_error(reply);
+			trie->context = NULL;
+			return -1;
+		}
+	}
+
+    reply = redisCommand(trie->context, "TRIE.COMPLETIONS %s %s", trie->name, prefix);
+
+    if (reply == NULL)
+    {
+        handle_error(reply);
+        trie->context = NULL;
+
+        return -1;
+    }
+
+    int reply_int = reply->integer;
+    freeReplyObject(reply);
+    return reply_int;
+}
+
+
