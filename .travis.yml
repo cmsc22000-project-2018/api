@@ -21,4 +21,4 @@ script:
     - make clean
     - make
     - make test
-	- ./tests/trie_tests/test-trie
+    - ./tests/trie_tests/test-trie
