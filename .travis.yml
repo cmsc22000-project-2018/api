@@ -20,5 +20,5 @@ before_install:
 script:
     - make clean
     - make
-    - make test
+    - make tests
     - ./tests/trie_tests/test-trie
