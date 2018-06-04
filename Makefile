@@ -19,9 +19,15 @@ $(DYNAMIC_LIB): $(OBJS)
 	- $(CC) -shared -o $@ $^ $(LDLIBS)
 	- make -C lib/redis-tries
 	- make -C lib/redis-tries/module
+	- make -C lib/hiredis-0.13.3
 
+tests: $(DYNAMIC_LIB)
+	- make -C tests/trie_tests
+	- make -C tests/zset_tests
 .PHONY: clean
 clean:
 	- $(RM) $(LIBS) $(OBJS)
 	- make -C lib/redis-tries clean
 	- make -C lib/redis-tries/module clean
+	- make -C tests/trie_tests clean
+	- make -C tests/zset_tests clean
