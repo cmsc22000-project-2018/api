@@ -213,7 +213,7 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     }
 
     /* end of return array */
-    completes = NULL;
+    completes[i] = NULL;
 
     freeReplyObject(reply);
 
