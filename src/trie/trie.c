@@ -5,6 +5,8 @@
 
 #include "trie.h"
 
+#define IP "13.58.50.175"
+#define PORT 6379
 /*
 * connected - check if an existing session is in place
 *
@@ -76,7 +78,7 @@ int trie_insert(trie_t *trie, char *word)
     if (!trie_connected(trie))
 	{
 		// establish connection to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        trie->context = apiConnect(IP, PORT); //localhost
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
@@ -114,7 +116,7 @@ int trie_contains(trie_t *trie, char *word)
     if (!trie_connected(trie))
     {
         // connect to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        trie->context = apiConnect(IP, PORT); //localhost
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
@@ -171,7 +173,7 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     if (!trie_connected(trie))
     {
         // connect to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+        trie->context = apiConnect(IP, PORT); //localhost
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
