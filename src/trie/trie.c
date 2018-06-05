@@ -248,20 +248,23 @@ int trie_completions(trie_t *trie, char *prefix)
 {
     redisReply *reply;
 
+    /* check if context is connected to a redis server */
     if (!trie_connected(trie))
     {
         // connect to server
         trie->context = apiConnect("127.0.0.1", 6379); //localhost
-        // load trie module
-        reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
 
-        if (reply == NULL)
+        reply = redisCommand(trie->context, "MODULE LIST");
+        if (reply->elements == 0)
+		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+		if (reply == NULL)
 		{
 			handle_error(reply);
 			trie->context = NULL;
-			return -1;
+			return NULL;
 		}
-	}
+    }
 
     reply = redisCommand(trie->context, "TRIE.COMPLETIONS %s %s", trie->name, prefix);
 
