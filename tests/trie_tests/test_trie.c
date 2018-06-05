@@ -65,7 +65,7 @@ Test(trie, contains)
     
     trie_free(test_trie); 
 } 
-
+/*
 Test(trie, completions) {
     trie_t* test_trie = trie_new("test");
     cr_assert_not_null(test_trie, "trie_new() failed");
@@ -84,6 +84,4 @@ Test(trie, completions) {
     
     trie_free(test_trie); 
 } 
-
-
-
+*/
