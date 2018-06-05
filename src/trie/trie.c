@@ -5,6 +5,8 @@
 
 #include "trie.h"
 
+#define IP "13.58.50.175"
+#define PORT 6379
 /*
 * connected - check if an existing session is in place
 *
@@ -76,8 +78,8 @@ int trie_insert(trie_t *trie, char *word)
     if (!trie_connected(trie))
 	{
 		// establish connection to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
-
+        trie->context = apiConnect(IP, PORT); //localhost
+/*
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -88,6 +90,7 @@ int trie_insert(trie_t *trie, char *word)
 			trie->context = NULL;
 			return 1;
 		}
+*/
 	}
     reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
 
@@ -114,8 +117,8 @@ int trie_contains(trie_t *trie, char *word)
     if (!trie_connected(trie))
     {
         // connect to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
-
+        trie->context = apiConnect(IP, PORT); //localhost
+/*
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -126,6 +129,7 @@ int trie_contains(trie_t *trie, char *word)
 			trie->context = NULL;
 			return 1;
 		}
+*/
 	}
 
     reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
@@ -171,8 +175,8 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     if (!trie_connected(trie))
     {
         // connect to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
-
+        trie->context = apiConnect(IP, PORT); //localhost
+/*
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -183,7 +187,8 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
 			trie->context = NULL;
 			return NULL;
 		}
-    }
+*/  
+ 	}
 
     /* execute redis command */
     reply = redisCommand(trie->context, "TRIE.APPROXMATCH %s %s %d %d",
