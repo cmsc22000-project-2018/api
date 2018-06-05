@@ -4,17 +4,12 @@
 #include "common.h"
 
 // see /include/api/common.h
-redisContext* apiConnect(const char *ip, int port)
-{
+redisContext* apiConnect(const char *ip, int port) {
     redisContext *c = redisConnect(ip, port);
-    if (c == NULL || c->err)
-    {
-        if (c)
-        {
+    if (c == NULL || c->err) {
+        if (c) {
             fprintf(stderr, "ERROR: %s\n", c->errstr);
-        }
-        else
-        {
+        } else {
             fprintf(stderr, "ERROR: cannot allocate redis context\n");
         }
         return NULL;
@@ -23,8 +18,7 @@ redisContext* apiConnect(const char *ip, int port)
 }
 
 // see /include/api/common.h
-void handle_error(redisReply *reply)
-{
+void handle_error(redisReply *reply) {
     printf("ERROR: %s\n", reply->str);
     freeReplyObject(reply);
 }
