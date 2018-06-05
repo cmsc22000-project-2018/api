@@ -76,8 +76,8 @@ int trie_delete(trie_t* trie)
 
     if (!trie_connected(trie)) {
 		// establish connection to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
-
+        trie->context = apiConnect(IP, PORT); //localhost
+/*
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -87,6 +87,7 @@ int trie_delete(trie_t* trie)
 			trie->context = NULL;
 			return 1;
 		}
+*/
     }
     
     reply = redisCommand(trie->context, "DEL %s %s", trie->name);
@@ -268,8 +269,8 @@ int trie_completions(trie_t *trie, char *prefix)
     if (!trie_connected(trie))
     {
         // connect to server
-        trie->context = apiConnect("127.0.0.1", 6379); //localhost
-
+        trie->context = apiConnect(IP, PORT); //localhost
+/*
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -280,7 +281,8 @@ int trie_completions(trie_t *trie, char *prefix)
 			trie->context = NULL;
 			return NULL;
 		}
-    }
+*/  
+  	}
 
     reply = redisCommand(trie->context, "TRIE.COMPLETIONS %s %s", trie->name, prefix);
 
