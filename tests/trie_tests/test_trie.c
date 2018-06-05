@@ -65,5 +65,23 @@ Test(trie, contains)
     
     trie_free(test_trie); 
 } 
+/*
+Test(trie, completions) {
+    trie_t* test_trie = trie_new("test");
+    cr_assert_not_null(test_trie, "trie_new() failed");
 
+    trie_insert(test_trie,"app");
+    trie_insert(test_trie,"apple");
+    trie_insert(test_trie,"apples");
 
+    int rc_1 = trie_completions(test_trie, "a");
+    int rc_2 = trie_completions(test_trie, "appl");
+    int rc_3 = trie_completions(test_trie, "b");
+
+    cr_assert_eq(rc_1, 3,"trie_completions() does not work");
+    cr_assert_eq(rc_2, 2,"trie_completions() does not work");
+    cr_assert_eq(rc_3, 0,"trie_completions() does not work");
+    
+    trie_free(test_trie); 
+} 
+*/

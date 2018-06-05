@@ -5,7 +5,7 @@
 
 #include "trie.h"
 
-#define IP "redis.example.org"
+#define IP "127.0.0.1"
 #define PORT 6379
 /*
 * connected - check if an existing session is in place
@@ -80,7 +80,7 @@ int trie_delete(trie_t* trie)
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
-		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		      reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL) {
 			handle_error(reply);
@@ -117,7 +117,7 @@ int trie_insert(trie_t *trie, char *word)
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
-		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		      reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -156,7 +156,7 @@ int trie_contains(trie_t *trie, char *word)
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
-		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		      reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -214,7 +214,7 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
-		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		      reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{
@@ -273,7 +273,7 @@ int trie_completions(trie_t *trie, char *prefix)
 
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
-		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+		      reply = redisCommand(trie->context, "MODULE LOAD lib/redis-tries/module/trie.so");
 
 		if (reply == NULL)
 		{

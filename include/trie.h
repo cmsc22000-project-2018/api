@@ -19,9 +19,19 @@
   *  Parameters:
   *      char *name - name of trie
   *  Returns:
-  *      trie_t* - pointer to new tr]ie_t struct, NULL otherwise
+  *      trie_t* - pointer to new trie_t struct, NULL otherwise
   */
 trie_t* trie_new(char *name);
+
+ /* trie_delete - deletes a trie struct
+  *
+  *  Parameters:
+  *      trie_t* trie - pointer to a trie
+  *      char* name - name of the trie to be deleted
+  *   Returns:
+  *      0 for success, 1 for error
+  */
+int trie_delete(trie_t* trie);
 
  /* trie_init - initializes fields in a trie struct
   *
@@ -76,4 +86,14 @@ int trie_contains(trie_t *trie,  char *word);
  *      char ** - a list of strings (completions)
  */
 char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matches);
+
+/* trie_completions(trie_t *trie, char *prefix) 
+ * Parameters:
+ *	trie_t *trie - pointer to opaque trie data structure
+ * 	char *prefix - prefix of possible completions
+ * Returns:
+ * 	int - the number of possible completions given a prefix, 0 for no possible completions 
+*/
+int trie_completions(trie_t *trie, char* prefix);
+
 #endif

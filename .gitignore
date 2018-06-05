@@ -5,5 +5,5 @@
 *.so
 samples/zset_api/zset_example
 samples/trie_api/trie_example
-tests/zset_tests
-tests/trie_tests
+tests/trie_tests/test-trie
+tests/zset_tests/test-zset
