@@ -5,7 +5,7 @@
 
 #include "trie.h"
 
-#define IP "13.58.50.175"
+#define IP "127.0.0.1"
 #define PORT 6379
 /*
 * connected - check if an existing session is in place
@@ -77,7 +77,7 @@ int trie_delete(trie_t* trie)
     if (!trie_connected(trie)) {
 		// establish connection to server
         trie->context = apiConnect(IP, PORT); //localhost
-/*
+
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -87,7 +87,7 @@ int trie_delete(trie_t* trie)
 			trie->context = NULL;
 			return 1;
 		}
-*/
+
     }
     
     reply = redisCommand(trie->context, "DEL %s %s", trie->name);
@@ -114,7 +114,7 @@ int trie_insert(trie_t *trie, char *word)
 	{
 		// establish connection to server
         trie->context = apiConnect(IP, PORT); //localhost
-/*
+
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -125,7 +125,7 @@ int trie_insert(trie_t *trie, char *word)
 			trie->context = NULL;
 			return 1;
 		}
-*/
+
 	}
     reply = redisCommand(trie->context, "TRIE.INSERT %s %s", trie->name, word);
 
@@ -153,7 +153,7 @@ int trie_contains(trie_t *trie, char *word)
     {
         // connect to server
         trie->context = apiConnect(IP, PORT); //localhost
-/*
+
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -164,7 +164,7 @@ int trie_contains(trie_t *trie, char *word)
 			trie->context = NULL;
 			return 1;
 		}
-*/
+
 	}
 
     reply = redisCommand(trie->context, "TRIE.CONTAINS %s %s", trie->name, word);
@@ -211,7 +211,7 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
     {
         // connect to server
         trie->context = apiConnect(IP, PORT); //localhost
-/*
+
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -222,7 +222,7 @@ char** trie_approx(trie_t *trie, char *prefix, int max_edit_dist, int num_matche
 			trie->context = NULL;
 			return NULL;
 		}
-*/  
+  
  	}
 
     /* execute redis command */
@@ -270,7 +270,7 @@ int trie_completions(trie_t *trie, char *prefix)
     {
         // connect to server
         trie->context = apiConnect(IP, PORT); //localhost
-/*
+
         reply = redisCommand(trie->context, "MODULE LIST");
         if (reply->elements == 0)
 		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
@@ -279,9 +279,9 @@ int trie_completions(trie_t *trie, char *prefix)
 		{
 			handle_error(reply);
 			trie->context = NULL;
-			return NULL;
+			return -1;
 		}
-*/  
+  
   	}
 
     reply = redisCommand(trie->context, "TRIE.COMPLETIONS %s %s", trie->name, prefix);
