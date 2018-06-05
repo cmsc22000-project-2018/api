@@ -4,7 +4,7 @@
 #include "common.h"
 #include "zset.h"
 
-int main(){
+int main() {
 
     zset_t *test_zset = zset_new("fruits");
     printf("zset_add(test_zset, \"bananas\",15): %d\n", zset_add(test_zset, "bananas", 15));
