@@ -5,7 +5,7 @@
 
 #include "trie.h"
 
-#define IP "127.0.0.1"
+#define IP "redis.example.org"
 #define PORT 6379
 /*
 * connected - check if an existing session is in place
