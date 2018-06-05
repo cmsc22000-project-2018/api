@@ -67,22 +67,33 @@ int trie_free(trie_t *trie)
     return 0;
 }
 
-int trie_delete(trie_t* trie, char* name)
+int trie_delete(trie_t* trie)
 {
     int rc;
+    redisReply *reply;
 
     if (!trie_connected(trie)) {
-      trie->context = apiConnect("127.0.0.1", 6379);
+		// establish connection to server
+        trie->context = apiConnect("127.0.0.1", 6379); //localhost
+
+        reply = redisCommand(trie->context, "MODULE LIST");
+        if (reply->elements == 0)
+		      reply = redisCommand(trie->context, "MODULE LOAD api/lib/redis-tries/module/trie.so");
+
+		if (reply == NULL) {
+			handle_error(reply);
+			trie->context = NULL;
+			return 1;
+		}
     }
+    
+    reply = redisCommand(trie->context, "DEL %s %s", trie->name);
 
-    redisReply *reply = redisCommand(trie->context, "DEL %s %s", trie->name, name);
+    if (reply == NULL) {
+        handle_error(reply);
+        trie->context = NULL;
 
-    if (reply == NULL)
-    {
-      handle_error(reply);
-      trie->context = NULL;
-
-      return 1;
+        return 1;
     }
 
     rc = reply->integer;
