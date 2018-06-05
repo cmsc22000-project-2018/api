@@ -193,9 +193,11 @@ Should produce the following output:
 ```
 zset_add bananas => 1
 zset_add apples => 1
-ZINCRBY: 18
-ZDECRBY: 16
 zset_score => 16
 zset_rank apples => 0
 zset_rank bananas => 1
 ```
+## Demo Application to demonstrate integration 
+To understand how to properly integrate your application with the api, take a look at the example application we have created:
+https://github.com/chen-alan/cs220-demo
+
